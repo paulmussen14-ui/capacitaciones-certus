@@ -1,0 +1,16 @@
+.logo {
+  width: auto;
+  object-fit: contain;
+}
+
+.logo--sm {
+  height: 28px;
+}
+
+.logo--md {
+  height: 40px;
+}
+
+.logo--lg {
+  height: 72px;
+}
