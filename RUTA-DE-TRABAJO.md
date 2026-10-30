@@ -858,7 +858,7 @@ git pull
 git switch -c feature/modelo-datos
 ```
 
-- [ ] Dibuja el diagrama entidad-relación (a mano, en https://dbdiagram.io o en draw.io) con las 4 tablas de abajo y guárdalo como imagen en `docs/modelo-datos.png`. Lo usarás en el informe.
+- [x] Dibuja el diagrama entidad-relación (a mano, en https://dbdiagram.io o en draw.io) con las 4 tablas de abajo y guárdalo como imagen en `docs/modelo-datos.png`. Lo usarás en el informe.
 
 Las 4 tablas y por qué existen:
 V
@@ -871,7 +871,7 @@ V
 
 ### 1.2 Escribir el esquema
 
-- [ ] Crea **`database/schema.sql`**:
+- [x] Crea **`database/schema.sql`**:
 
 ```sql
 -- Esquema de la base de datos: Capacitación Docente (CERTUS)
@@ -948,7 +948,7 @@ Qué protege cada restricción:
 
 ### 1.3 Datos de ejemplo
 
-- [ ] Crea **`database/seed.sql`** (capacitaciones de ejemplo; los usuarios se crean en la Etapa 2 con contraseña cifrada):
+- [x] Crea **`database/seed.sql`** (capacitaciones de ejemplo; los usuarios se crean en la Etapa 2 con contraseña cifrada):
 
 ```sql
 INSERT INTO capacitaciones
@@ -976,15 +976,15 @@ Get-Content database\schema.sql -Raw | docker compose exec -T db psql -U capacit
 Get-Content database\seed.sql -Raw | docker compose exec -T db psql -U capacitaciones -d capacitaciones_db
 ```
 
-- [ ] Verifica las tablas:
+- [x] Verifica las tablas:
 
 ```bash
 docker compose exec db psql -U capacitaciones -d capacitaciones_db -c "\dt"
 docker compose exec db psql -U capacitaciones -d capacitaciones_db -c "select id, titulo from capacitaciones;"
 ```
 
-- [ ] Aparecen las 4 tablas y las 4 capacitaciones de ejemplo.
-- [ ] Prueba que la base te protege: intenta insertar un `rol` inválido y confirma que da error.
+- [x] Aparecen las 4 tablas y las 4 capacitaciones de ejemplo.
+- [x] Prueba que la base te protege: intenta insertar un `rol` inválido y confirma que da error.
 
 ```bash
 docker compose exec db psql -U capacitaciones -d capacitaciones_db -c "insert into usuarios (nombres, apellidos, correo, password_hash, rol) values ('x','y','z@z.com','abc','supervisor');"
@@ -992,7 +992,7 @@ docker compose exec db psql -U capacitaciones -d capacitaciones_db -c "insert in
 
 ### 1.5 Documentar y subir
 
-- [ ] Crea `docs/modelo-datos.md` explicando en pocas líneas cada tabla y la imagen del diagrama.
+- [x] Crea `docs/modelo-datos.md` explicando en pocas líneas cada tabla y la imagen del diagrama.
 
 ```bash
 git add .
@@ -1000,13 +1000,13 @@ git commit -m "feat(db): esquema SQL, datos de ejemplo y documentacion del model
 git push -u origin feature/modelo-datos
 ```
 
-- [ ] Pull Request hacia `develop` y merge. Luego `git switch develop` y `git pull`.
+- [x] Pull Request hacia `develop` y merge. Luego `git switch develop` y `git pull`.
 
 ### Etapa 1: listo cuando...
 
-- [ ] Las 4 tablas existen y tienen sus restricciones
-- [ ] El diagrama está en `docs/`
-- [ ] Cualquier compañero puede recrear la base con 2 comandos (documentado en `docs/modelo-datos.md`)
+- [x] Las 4 tablas existen y tienen sus restricciones
+- [x] El diagrama está en `docs/`
+- [x] Cualquier compañero puede recrear la base con 2 comandos (documentado en `docs/modelo-datos.md`)
 
 ---
 
@@ -1018,9 +1018,9 @@ git push -u origin feature/modelo-datos
 
 ### 2.1 Preparación
 
-- [ ] Rama: `git switch develop`, `git pull`, `git switch -c feature/autenticacion`.
-- [ ] Averigua con tu docente el **dominio del correo institucional** (por ejemplo `@certus.edu.pe`; **confirma el real**) y agrégalo a `.env.example` y `.env` como `ALLOWED_EMAIL_DOMAIN=...`.
-- [ ] Instala en `apps/api`: `npm install bcryptjs jsonwebtoken cookie-parser express-rate-limit`.
+- [x] Rama: `git switch develop`, `git pull`, `git switch -c feature/autenticacion`.
+- [x] Averigua con tu docente el **dominio del correo institucional** (por ejemplo `@certus.edu.pe`; **confirma el real**) y agrégalo a `.env.example` y `.env` como `ALLOWED_EMAIL_DOMAIN=...`.
+- [x] Instala en `apps/api`: `npm install bcryptjs jsonwebtoken cookie-parser express-rate-limit`.
 
 ### 2.2 Qué construirás en la API
 
@@ -1036,28 +1036,28 @@ git push -u origin feature/modelo-datos
 
 ### 2.3 Reglas de seguridad de esta etapa
 
-- [ ] Las contraseñas se guardan con **hash** (`bcryptjs`), nunca en texto plano.
-- [ ] El token JWT viaja en una **cookie `httpOnly`** (con `sameSite` y, en producción, `secure`).
-- [ ] El login tiene **límite de intentos** (`express-rate-limit`).
-- [ ] El mensaje de error del login es el mismo si falla el correo o la contraseña ("Credenciales inválidas").
-- [ ] Solo se aceptan correos del dominio institucional y usuarios con `activo = true`.
-- [ ] Las rutas de administrador están protegidas con `requireRole`, **también en el backend** (no solo ocultar botones).
+- [x] Las contraseñas se guardan con **hash** (`bcryptjs`), nunca en texto plano.
+- [x] El token JWT viaja en una **cookie `httpOnly`** (con `sameSite` y, en producción, `secure`).
+- [x] El login tiene **límite de intentos** (`express-rate-limit`).
+- [x] El mensaje de error del login es el mismo si falla el correo o la contraseña ("Credenciales inválidas").
+- [x] Solo se aceptan correos del dominio institucional y usuarios con `activo = true`.
+- [x] Las rutas de administrador están protegidas con `requireRole`, **también en el backend** (no solo ocultar botones).
 
 ### 2.4 Qué construirás en React
 
-- [ ] `pages/Login/` con formulario, mensajes de error claros y estado de carga.
-- [ ] `context/AuthContext.jsx` que guarda el usuario actual y llama a `/api/auth/me` al abrir la app.
-- [ ] `components/ProtectedRoute/` que redirige al login si no hay sesión, o a otra página si el rol no corresponde.
-- [ ] Rutas con React Router: `/login`, `/docente/...`, `/admin/...`.
+- [x] `pages/Login/` con formulario, mensajes de error claros y estado de carga.
+- [x] `context/AuthContext.jsx` que guarda el usuario actual y llama a `/api/auth/me` al abrir la app.
+- [x] `components/ProtectedRoute/` que redirige al login si no hay sesión, o a otra página si el rol no corresponde.
+- [x] Rutas con React Router: `/login`, `/docente/...`, `/admin/...`.
 
 ### 2.5 Pruebas manuales (Thunder Client o Postman)
 
-- [ ] Login correcto devuelve los datos del usuario y guarda la cookie.
-- [ ] Login con contraseña mala devuelve 401.
-- [ ] Login con correo fuera del dominio devuelve 400.
-- [ ] Un docente que llama a una ruta de administrador recibe 403.
-- [ ] Sin sesión, una ruta protegida devuelve 401.
-- [ ] Más de N intentos seguidos activan el límite.
+- [x] Login correcto devuelve los datos del usuario y guarda la cookie.
+- [x] Login con contraseña mala devuelve 401.
+- [x] Login con correo fuera del dominio devuelve 400.
+- [x] Un docente que llama a una ruta de administrador recibe 403.
+- [x] Sin sesión, una ruta protegida devuelve 401.
+- [x] Más de N intentos seguidos activan el límite.
 
 ```bash
 git add .
@@ -1065,12 +1065,12 @@ git commit -m "feat(auth): login con cookie httpOnly, roles y rutas protegidas"
 git push -u origin feature/autenticacion
 ```
 
-- [ ] Pull Request hacia `develop` y merge.
+- [x] Pull Request hacia `develop` y merge.
 
 ### Etapa 2: listo cuando...
 
-- [ ] Puedes entrar como administrador y como docente, y cada uno llega a su pantalla
-- [ ] Todas las pruebas de 2.5 pasan
+- [x] Puedes entrar como administrador y como docente, y cada uno llega a su pantalla
+- [x] Todas las pruebas de 2.5 pasan
 
 ---
 
