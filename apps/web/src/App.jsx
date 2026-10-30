@@ -1,22 +1,26 @@
-import { useEffect, useState } from "react";
-import { apiFetch } from "./services/api";
-import Button from "./components/Button/Button";
-import Logo from "./components/Logo/Logo";
+import { Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import RedirectInicio from "./components/ProtectedRoute/RedirectInicio";
+import Login from "./pages/Login/Login";
+import Panel from "./pages/Panel/Panel";
 
 export default function App() {
-  const [estado, setEstado] = useState("Comprobando conexión...");
-
-  useEffect(() => {
-    apiFetch("/health")
-      .then((d) => setEstado(`API y base de datos: ${d.status}`))
-      .catch((e) => setEstado(`Error: ${e.message}`));
-  }, []);
-
   return (
-    <div className="container">
-      <Logo size="lg" />
-      <h1>{estado}</h1>
-      <Button onClick={() => window.location.reload()}>Reintentar</Button>
-    </div>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+
+      <Route element={<ProtectedRoute roles={["docente"]} />}>
+        <Route path="/docente" element={<Panel titulo="Panel del docente" />} />
+      </Route>
+
+      <Route element={<ProtectedRoute roles={["administrador"]} />}>
+        <Route
+          path="/admin"
+          element={<Panel titulo="Panel del administrador" />}
+        />
+      </Route>
+
+      <Route path="*" element={<RedirectInicio />} />
+    </Routes>
   );
 }
