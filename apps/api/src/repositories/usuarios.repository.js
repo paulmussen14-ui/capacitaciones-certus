@@ -1,11 +1,9 @@
 import { query } from "../config/db.js";
+import { escaparLike } from "../utils/validacion.js";
+
 
 const COLUMNAS_PUBLICAS =
     "id, nombres, apellidos, correo, rol, sede, programa, activo, creado_en";
-
-function escaparLike(texto) {
-    return texto.replace(/[\\%_]/g, "\\$&");
-}
 
 export async function buscarPorCorreo(correo) {
     const resultado = await query(
@@ -27,29 +25,17 @@ export async function buscarPorId(id) {
     return resultado.rows[0] ?? null;
 }
 
-export async function listar({ buscar, rol } = {}) {
-    const condiciones = [];
-    const params = [];
-
-    if (buscar) {
-        params.push(`%${escaparLike(buscar)}%`);
-        condiciones.push(
-        `((nombres || ' ' || apellidos) ILIKE $${params.length} OR correo ILIKE $${params.length})`,
-        );
-    }
-    if (rol) {
-        params.push(rol);
-        condiciones.push(`rol = $${params.length}`);
-    }
-
-    const donde = condiciones.length ? `WHERE ${condiciones.join(" AND ")}` : "";
-
+export async function listar(busqueda = "") {
+    const patron = busqueda ? `%${escaparLike(busqueda)}%` : null;
     const resultado = await query(
         `SELECT ${COLUMNAS_PUBLICAS}
         FROM usuarios
-        ${donde}
-        ORDER BY apellidos, nombres, id`,
-        params,
+        WHERE ($1::text IS NULL
+            OR nombres ILIKE $1
+            OR apellidos ILIKE $1
+            OR correo ILIKE $1)
+        ORDER BY apellidos, nombres`,
+        [patron],
     );
     return resultado.rows;
 }
@@ -72,7 +58,10 @@ export async function crear({
     return resultado.rows[0];
 }
 
-export async function actualizar(id, datos) {
+export async function actualizar(
+    id,
+    { nombres, apellidos, correo, rol, sede, programa, passwordHash = null },
+) {
     const resultado = await query(
         `UPDATE usuarios
             SET nombres = $2,
@@ -80,22 +69,14 @@ export async function actualizar(id, datos) {
                 correo = $4,
                 rol = $5,
                 sede = $6,
-                programa = $7
+                programa = $7,
+                password_hash = COALESCE($8, password_hash)
         WHERE id = $1
         RETURNING ${COLUMNAS_PUBLICAS}`,
-        [
-        id,
-        datos.nombres,
-        datos.apellidos,
-        datos.correo,
-        datos.rol,
-        datos.sede,
-        datos.programa,
-        ],
+        [id, nombres, apellidos, correo, rol, sede, programa, passwordHash],
     );
     return resultado.rows[0] ?? null;
 }
-
 
 export async function cambiarEstado(id, activo) {
     const resultado = await query(
