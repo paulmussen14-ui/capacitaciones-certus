@@ -1,8 +1,11 @@
 import { query } from "../config/db.js";
 
-
 const COLUMNAS_PUBLICAS =
     "id, nombres, apellidos, correo, rol, sede, programa, activo, creado_en";
+
+function escaparLike(texto) {
+    return texto.replace(/[\\%_]/g, "\\$&");
+}
 
 export async function buscarPorCorreo(correo) {
     const resultado = await query(
@@ -24,11 +27,29 @@ export async function buscarPorId(id) {
     return resultado.rows[0] ?? null;
 }
 
-export async function listar() {
+export async function listar({ buscar, rol } = {}) {
+    const condiciones = [];
+    const params = [];
+
+    if (buscar) {
+        params.push(`%${escaparLike(buscar)}%`);
+        condiciones.push(
+        `((nombres || ' ' || apellidos) ILIKE $${params.length} OR correo ILIKE $${params.length})`,
+        );
+    }
+    if (rol) {
+        params.push(rol);
+        condiciones.push(`rol = $${params.length}`);
+    }
+
+    const donde = condiciones.length ? `WHERE ${condiciones.join(" AND ")}` : "";
+
     const resultado = await query(
         `SELECT ${COLUMNAS_PUBLICAS}
         FROM usuarios
-        ORDER BY apellidos, nombres`,
+        ${donde}
+        ORDER BY apellidos, nombres, id`,
+        params,
     );
     return resultado.rows;
 }
@@ -51,7 +72,31 @@ export async function crear({
     return resultado.rows[0];
 }
 
-// Los usuarios no se eliminan: se activan o se desactivan
+export async function actualizar(id, datos) {
+    const resultado = await query(
+        `UPDATE usuarios
+            SET nombres = $2,
+                apellidos = $3,
+                correo = $4,
+                rol = $5,
+                sede = $6,
+                programa = $7
+        WHERE id = $1
+        RETURNING ${COLUMNAS_PUBLICAS}`,
+        [
+        id,
+        datos.nombres,
+        datos.apellidos,
+        datos.correo,
+        datos.rol,
+        datos.sede,
+        datos.programa,
+        ],
+    );
+    return resultado.rows[0] ?? null;
+}
+
+
 export async function cambiarEstado(id, activo) {
     const resultado = await query(
         `UPDATE usuarios
