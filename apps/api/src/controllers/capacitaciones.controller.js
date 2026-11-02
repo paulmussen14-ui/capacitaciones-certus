@@ -1,14 +1,15 @@
 import * as capacitacionesService from "../services/capacitaciones.service.js";
+import { idDesdeParametro } from "../utils/validacion.js";
 
 export async function listar(req, res) {
-    const capacitaciones = await capacitacionesService.listar({
-        buscar: req.query.buscar,
-    });
+    const capacitaciones = await capacitacionesService.listar(req.query.q);
     res.json({ capacitaciones });
 }
 
 export async function obtener(req, res) {
-    const capacitacion = await capacitacionesService.obtener(req.params.id);
+    const capacitacion = await capacitacionesService.obtener(
+        idDesdeParametro(req.params.id),
+    );
     res.json({ capacitacion });
 }
 
@@ -19,7 +20,7 @@ export async function crear(req, res) {
 
 export async function actualizar(req, res) {
     const capacitacion = await capacitacionesService.actualizar(
-        req.params.id,
+        idDesdeParametro(req.params.id),
         req.body,
     );
     res.json({ capacitacion });
@@ -27,7 +28,7 @@ export async function actualizar(req, res) {
 
 export async function cambiarEstado(req, res) {
     const capacitacion = await capacitacionesService.cambiarEstado(
-        req.params.id,
+        idDesdeParametro(req.params.id),
         req.body,
     );
     res.json({ capacitacion });

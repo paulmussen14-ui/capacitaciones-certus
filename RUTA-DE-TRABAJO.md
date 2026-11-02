@@ -1080,7 +1080,7 @@ git push -u origin feature/autenticacion
 
 ### 3.1 Preparación
 
-- [ ] Rama: `feature/gestion-capacitaciones`.
+- [x] Rama: `feature/gestion-capacitaciones`.
 
 ### 3.2 Endpoints (solo administrador)
 
@@ -1098,25 +1098,25 @@ git push -u origin feature/autenticacion
 
 ### 3.3 Reglas
 
-- [ ] Solo el administrador crea, edita o desactiva capacitaciones.
-- [ ] Validar los datos de entrada en el backend (campos obligatorios, duración mayor que 0, fecha fin posterior a fecha inicio, correo con dominio institucional).
-- [ ] Desactivar, **no eliminar**: se conserva el historial.
-- [ ] Cada fila lleva su fecha de creación (ya está en las tablas).
+- [x] Solo el administrador crea, edita o desactiva capacitaciones.
+- [x] Validar los datos de entrada en el backend (campos obligatorios, duración mayor que 0, fecha fin posterior a fecha inicio, correo con dominio institucional).
+- [x] Desactivar, **no eliminar**: se conserva el historial.
+- [x] Cada fila lleva su fecha de creación (ya está en las tablas).
 
 ### 3.4 Componentes base de React (con su propio CSS cada uno)
 
-- [ ] `Button`, `Input`, `Select`, `Card`, `Badge` (estados con color), `Table`, `Modal`, `Navbar`/`Sidebar`, `Toast` (avisos de éxito o error), `Spinner`.
-- [ ] Diseño responsivo: menú tipo hamburguesa en móvil, tablas con desplazamiento horizontal.
+- [x] `Button`, `Input`, `Select`, `Card`, `Badge` (estados con color), `Table`, `Modal`, `Navbar`/`Sidebar`, `Toast` (avisos de éxito o error), `Spinner`.
+- [x] Diseño responsivo: menú tipo hamburguesa en móvil, tablas con desplazamiento horizontal.
 
 ### 3.5 Pantallas
 
-- [ ] Administrador > Capacitaciones: tabla con búsqueda, botón **Nueva**, editar y desactivar.
-- [ ] Administrador > Docentes: tabla con alta, edición y desactivación.
+- [x] Administrador > Capacitaciones: tabla con búsqueda, botón **Nueva**, editar y desactivar.
+- [x] Administrador > Docentes: tabla con alta, edición y desactivación.
 
 ### 3.6 Pruebas y cierre
 
-- [ ] Crear una capacitación con datos inválidos muestra un mensaje claro (no pantalla en blanco).
-- [ ] Un docente no puede abrir las pantallas de administrador.
+- [x] Crear una capacitación con datos inválidos muestra un mensaje claro (no pantalla en blanco).
+- [x] Un docente no puede abrir las pantallas de administrador.
 
 ```bash
 git add .
@@ -1124,11 +1124,11 @@ git commit -m "feat: CRUD de capacitaciones y usuarios con validaciones"
 git push -u origin feature/gestion-capacitaciones
 ```
 
-- [ ] Pull Request y merge.
+- [x] Pull Request y merge.
 
 ### Etapa 3: listo cuando...
 
-- [ ] Administras capacitaciones y usuarios desde la interfaz, con validaciones y mensajes de error legibles
+- [x] Administras capacitaciones y usuarios desde la interfaz, con validaciones y mensajes de error legibles
 
 ---
 

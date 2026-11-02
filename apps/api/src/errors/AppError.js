@@ -31,7 +31,7 @@ export class ForbiddenError extends AppError {
 }
 
 export class ConflictError extends AppError {
-    constructor(message = "El recurso ya existe") {
-        super(message, 409, "CONFLICT");
+    constructor (message = 'El recurso ya existe') {
+        super(message, 409, 'CONFLICT');
     }
 }

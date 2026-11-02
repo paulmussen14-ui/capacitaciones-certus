@@ -5,7 +5,6 @@ import { requireRole } from "../middlewares/requireRole.js";
 
 const router = Router();
 
-
 router.use(requireAuth, requireRole("administrador"));
 
 router.get("/", capacitacionesController.listar);
