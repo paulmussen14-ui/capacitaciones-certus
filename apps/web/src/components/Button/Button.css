@@ -1,27 +1,9 @@
 .btn {
-  display: inline-block;
   padding: var(--space-2) var(--space-3);
-  text-decoration: none;
-  border: 1px solid transparent;
+  border: none;
   border-radius: var(--radius);
   font-weight: 600;
   cursor: pointer;
-  white-space: nowrap;
-}
-
-.btn:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
-
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn--sm {
-  padding: var(--space-1) var(--space-2);
-  font-size: var(--font-size-sm);
 }
 
 .btn--primary {
@@ -29,34 +11,11 @@
   color: #fff;
 }
 
-.btn--primary:hover:not(:disabled) {
+.btn--primary:hover {
   background: var(--color-primary-dark);
-}
-
-.btn--secondary {
-  background: var(--color-surface);
-  border-color: var(--color-border);
-  color: var(--color-primary);
-}
-
-.btn--secondary:hover:not(:disabled) {
-  background: var(--color-primary-soft);
-}
-
-.btn--ghost {
-  background: transparent;
-  color: var(--color-primary);
-}
-
-.btn--ghost:hover:not(:disabled) {
-  background: var(--color-primary-soft);
 }
 
 .btn--danger {
   background: var(--color-danger);
   color: #fff;
-}
-
-.btn--danger:hover:not(:disabled) {
-  filter: brightness(0.9);
 }
