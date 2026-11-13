@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Alert from '../../components/Alert/Alert';
+import Avatar from '../../components/Avatar/Avatar';
 import Badge from '../../components/Badge/Badge';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
@@ -15,8 +16,12 @@ import {
     cambiarEstadoUsuario,
     crearUsuario,
     listarUsuarios,
+    quitarFotoUsuario,
+    subirFotoUsuario,
 } from '../../services/usuarios';
+import { aplicarCambioImagen } from '../../utils/imagen';
 import UsuarioForm from './UsuarioForm';
+import './Docentes.css';
 
 const NUEVO = 'nuevo';
 
@@ -33,14 +38,23 @@ export default function Docentes() {
     const [aDesactivar, setADesactivar] = useState(null);
     const [procesando, setProcesando] = useState(false);
 
-    async function guardar(datos) {
+    async function guardar(datos, imagen) {
+        let guardado;
         if (editando === NUEVO) {
-        await crearUsuario(datos);
+        guardado = await crearUsuario(datos);
         toast.exito('Usuario creado.');
         } else {
-        await actualizarUsuario(editando.id, datos);
+        guardado = await actualizarUsuario(editando.id, datos);
         toast.exito('Cambios guardados.');
         }
+
+        // Los datos ya quedaron guardados; si la foto falla se avisa sin perderlos
+        try {
+        await aplicarCambioImagen(imagen, guardado.id, subirFotoUsuario, quitarFotoUsuario);
+        } catch (err) {
+        toast.error(`Se guardó, pero la foto no se pudo actualizar: ${err.message}`);
+        }
+
         setEditando(null);
         recargar();
     }
@@ -67,10 +81,13 @@ export default function Docentes() {
         titulo: 'Nombre',
         className: 'table__principal',
         render: (fila) => (
-            <>
-            <strong>{nombreCompleto(fila)}</strong>
-            {fila.id === sesion.id && <span className="text-muted"> (tú)</span>}
-            </>
+            <span className="docente-nombre">
+            <Avatar nombres={fila.nombres} apellidos={fila.apellidos} src={fila.foto_url} />
+            <span>
+                <strong>{nombreCompleto(fila)}</strong>
+                {fila.id === sesion.id && <span className="text-muted"> (tú)</span>}
+            </span>
+            </span>
         ),
         },
         { clave: 'correo', titulo: 'Correo' },

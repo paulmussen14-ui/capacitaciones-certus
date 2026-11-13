@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import Alert from '../../components/Alert/Alert';
 import Button from '../../components/Button/Button';
+import ImagenInput from '../../components/ImagenInput/ImagenInput';
 import Input from '../../components/Input/Input';
 import Select from '../../components/Select/Select';
 
@@ -84,6 +85,7 @@ export default function UsuarioForm({ usuario, esPropio = false, onGuardar, onCa
     const [errores, setErrores] = useState({});
     const [errorServidor, setErrorServidor] = useState('');
     const [enviando, setEnviando] = useState(false);
+    const [imagen, setImagen] = useState(null);
 
     const editando = usuario !== null;
 
@@ -110,7 +112,7 @@ export default function UsuarioForm({ usuario, esPropio = false, onGuardar, onCa
 
         setEnviando(true);
         try {
-        await onGuardar(aDatosApi(valores));
+        await onGuardar(aDatosApi(valores), imagen);
         } catch (error) {
         setErrorServidor(error.message);
         setEnviando(false);
@@ -126,6 +128,15 @@ export default function UsuarioForm({ usuario, esPropio = false, onGuardar, onCa
         )}
 
         <div className="form-grid">
+            <div className="form-grid__full">
+            <ImagenInput
+                label="Foto de perfil"
+                forma="circle"
+                actual={usuario?.foto_url ?? null}
+                onChange={setImagen}
+            />
+            </div>
+
             <Input
             label="Nombres"
             required
