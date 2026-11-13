@@ -147,3 +147,6 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Imágenes subidas desde la app (no se versionan)
+apps/api/uploads/

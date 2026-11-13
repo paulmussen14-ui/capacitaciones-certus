@@ -1,0 +1,118 @@
+.page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+.page-header h1 {
+    margin: 0;
+}
+
+.page-header__sub {
+    margin: var(--space-1) 0 0;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+}
+
+.toolbar__buscar {
+    flex: 1 1 240px;
+    max-width: 420px;
+}
+
+.toolbar__conteo {
+    margin-left: auto;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.is-loading {
+    opacity: 0.6;
+    transition: opacity 0.15s;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+}
+
+.form-grid__full {
+    grid-column: 1 / -1;
+}
+
+.form-error {
+    margin-bottom: var(--space-3);
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+}
+
+/* ---------- Filtros por estado ---------- */
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.filtros__boton {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.filtros__boton:hover {
+    background: var(--color-primary-soft);
+}
+
+.filtros__boton:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.filtros__boton--activo {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+}
+
+.filtros__boton--activo:hover {
+    background: var(--color-primary-dark);
+}
+
+.filtros__conteo {
+    min-width: 1.5rem;
+    padding: 0 var(--space-2);
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.1);
+    font-size: var(--font-size-sm);
+    text-align: center;
+}
+
+@media (min-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
