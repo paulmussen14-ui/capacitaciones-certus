@@ -3,7 +3,7 @@ import { escaparLike } from "../utils/validacion.js";
 
 
 const COLUMNAS_PUBLICAS =
-    "id, nombres, apellidos, correo, rol, sede, programa, activo, creado_en";
+    "id, nombres, apellidos, correo, rol, sede, programa, foto_url, activo, creado_en";
 
 export async function buscarPorCorreo(correo) {
     const resultado = await query(
@@ -85,6 +85,17 @@ export async function cambiarEstado(id, activo) {
         WHERE id = $1
         RETURNING ${COLUMNAS_PUBLICAS}`,
         [id, activo],
+    );
+    return resultado.rows[0] ?? null;
+}
+
+export async function actualizarFoto(id, fotoUrl) {
+    const resultado = await query(
+        `UPDATE usuarios
+            SET foto_url = $2
+        WHERE id = $1
+        RETURNING ${COLUMNAS_PUBLICAS}`,
+        [id, fotoUrl],
     );
     return resultado.rows[0] ?? null;
 }

@@ -1,7 +1,11 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { env } from "../config/env.js";
-import { UnauthorizedError, ValidationError } from "../errors/AppError.js";
+import {
+    ForbiddenError,
+    UnauthorizedError,
+    ValidationError,
+} from "../errors/AppError.js";
 import * as usuariosRepository from "../repositories/usuarios.repository.js";
 
 const REGEX_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -74,4 +78,23 @@ export async function usuarioDesdeToken(token) {
             throw new UnauthorizedError("Sesión inválida o vencida");
         }
         return usuario;
+}
+
+// Reconfirma la clave de quien ya tiene sesión (para acciones destructivas)
+export async function confirmarPassword(usuarioActual, password) {
+    if (typeof password !== "string" || password.length === 0) {
+        throw new ValidationError("Escribe tu clave de administrador para confirmar");
+    }
+    if (password.length > LARGO_MAXIMO_PASSWORD) {
+        throw new ForbiddenError("Clave de administrador incorrecta");
+    }
+
+    const usuario = await usuariosRepository.buscarPorCorreo(usuarioActual.correo);
+    const coincide = await bcrypt.compare(
+        password,
+        usuario?.password_hash ?? HASH_RELLENO,
+    );
+    if (!usuario || !coincide) {
+        throw new ForbiddenError("Clave de administrador incorrecta");
+    }
 }

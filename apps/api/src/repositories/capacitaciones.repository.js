@@ -4,7 +4,9 @@ import { escaparLike } from "../utils/validacion.js";
 const COLUMNAS = `id, titulo, descripcion, duracion_horas, instructor, sede, programa,
     to_char(fecha_inicio, 'YYYY-MM-DD') AS fecha_inicio,
     to_char(fecha_fin, 'YYYY-MM-DD') AS fecha_fin,
-    activa, creado_en`;
+    imagen_url, activa, creado_en,
+    (SELECT COUNT(*)::int FROM inscripciones i
+        WHERE i.capacitacion_id = capacitaciones.id) AS inscritos`;
 
 export async function listar(busqueda = "") {
     const patron = busqueda ? `%${escaparLike(busqueda)}%` : null;
@@ -78,4 +80,23 @@ export async function cambiarEstado(id, activa) {
         [id, activa],
     );
     return resultado.rows[0] ?? null;
+}
+
+export async function actualizarImagen(id, imagenUrl) {
+    const resultado = await query(
+        `UPDATE capacitaciones
+            SET imagen_url = $2
+        WHERE id = $1
+        RETURNING ${COLUMNAS}`,
+        [id, imagenUrl],
+    );
+    return resultado.rows[0] ?? null;
+}
+
+export async function eliminar(id) {
+    const resultado = await query(
+        "DELETE FROM capacitaciones WHERE id = $1",
+        [id],
+    );
+    return resultado.rowCount > 0;
 }

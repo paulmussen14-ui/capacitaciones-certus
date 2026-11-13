@@ -15,6 +15,7 @@ CREATE TABLE usuarios (
   rol           VARCHAR(20)  NOT NULL CHECK (rol IN ('docente', 'administrador')),
   sede          VARCHAR(100),
   programa      VARCHAR(100),
+  foto_url      VARCHAR(255),
   activo        BOOLEAN NOT NULL DEFAULT TRUE,
   creado_en     TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -29,6 +30,7 @@ CREATE TABLE capacitaciones (
   programa       VARCHAR(100),
   fecha_inicio   DATE,
   fecha_fin      DATE,
+  imagen_url     VARCHAR(255),
   activa         BOOLEAN NOT NULL DEFAULT TRUE,
   creado_en      TIMESTAMP NOT NULL DEFAULT NOW(),
   CHECK (fecha_fin IS NULL OR fecha_inicio IS NULL OR fecha_fin >= fecha_inicio)

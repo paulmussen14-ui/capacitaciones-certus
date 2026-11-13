@@ -7,6 +7,7 @@ import {
     ValidationError,
 } from "../errors/AppError.js";
 import * as usuariosRepository from "../repositories/usuarios.repository.js";
+import { borrarImagen, guardarImagen } from "../utils/imagenes.js";
 import {
     booleano,
     busquedaDesdeQuery,
@@ -140,5 +141,26 @@ export async function cambiarEstado(id, datos, usuarioActual) {
 
     const usuario = await usuariosRepository.cambiarEstado(id, activo);
     if (!usuario) throw new NotFoundError("Usuario no encontrado");
+    return usuario;
+}
+
+export async function subirFoto(id, archivo) {
+    if (!archivo) throw new ValidationError("Selecciona una imagen");
+
+    const existente = await usuariosRepository.buscarPorId(id);
+    if (!existente) throw new NotFoundError("Usuario no encontrado");
+
+    const url = await guardarImagen(archivo.buffer, "usuarios");
+    const usuario = await usuariosRepository.actualizarFoto(id, url);
+    await borrarImagen(existente.foto_url);
+    return usuario;
+}
+
+export async function quitarFoto(id) {
+    const existente = await usuariosRepository.buscarPorId(id);
+    if (!existente) throw new NotFoundError("Usuario no encontrado");
+
+    const usuario = await usuariosRepository.actualizarFoto(id, null);
+    await borrarImagen(existente.foto_url);
     return usuario;
 }
