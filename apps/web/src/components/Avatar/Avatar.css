@@ -13,3 +13,4 @@
 .avatar--sm { width: 1.75rem; height: 1.75rem; font-size: 0.7rem; }
 .avatar--md { width: 2.5rem; height: 2.5rem; font-size: var(--font-size-sm); }
 .avatar--lg { width: 5rem; height: 5rem; font-size: var(--font-size-lg); }
+.avatar--xl { width: 7rem; height: 7rem; font-size: 2rem; }

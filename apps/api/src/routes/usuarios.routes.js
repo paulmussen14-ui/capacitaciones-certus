@@ -10,6 +10,7 @@ router.use(requireAuth, requireRole("administrador"));
 
 router.get("/", usuariosController.listar);
 router.get("/:id", usuariosController.obtener);
+router.get("/:id/capacitaciones", usuariosController.capacitaciones);
 router.post("/", usuariosController.crear);
 router.put("/:id", usuariosController.actualizar);
 router.patch("/:id/estado", usuariosController.cambiarEstado);

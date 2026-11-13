@@ -97,21 +97,6 @@
     min-width: 12rem;
 }
 
-.barra {
-    flex: 1;
-    height: 0.6rem;
-    overflow: hidden;
-    border-radius: 999px;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-}
-
-.barra__relleno {
-    height: 100%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-}
-
 @media (min-width: 768px) {
     .metricas-resumen {
         grid-template-columns: repeat(4, 1fr);

@@ -44,3 +44,9 @@ export async function quitarFotoUsuario(id) {
     const datos = await apiFetch(`/usuarios/${id}/foto`, { method: 'DELETE' });
     return datos.usuario;
 }
+
+
+export async function listarCapacitacionesDeUsuario(id) {
+    const datos = await apiFetch(`/usuarios/${id}/capacitaciones`);
+    return datos.capacitaciones;
+}

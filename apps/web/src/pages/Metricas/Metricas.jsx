@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Alert from '../../components/Alert/Alert';
 import Avatar from '../../components/Avatar/Avatar';
+import BarraProgreso from '../../components/BarraProgreso/BarraProgreso';
 import Button from '../../components/Button/Button';
 import Card from '../../components/Card/Card';
 import Spinner from '../../components/Spinner/Spinner';
@@ -8,14 +9,6 @@ import { obtenerMetricas } from '../../services/metricas';
 import './Metricas.css';
 
 const ORDINAL = ['1.º', '2.º', '3.º'];
-
-function Barra({ valor }) {
-    return (
-        <div className="barra" role="img" aria-label={`${valor}% de progreso`}>
-        <div className="barra__relleno" style={{ width: `${valor}%` }} />
-        </div>
-    );
-}
 
 function Resumen({ totales }) {
     const datos = [
@@ -131,7 +124,7 @@ export default function Metricas() {
                         </td>
                         <td>{d.completadas} / {d.asignadas}</td>
                         <td className="metricas-celda-barra">
-                            <Barra valor={d.progreso_promedio} />
+                            <BarraProgreso valor={d.progreso_promedio} />
                             <span>{d.progreso_promedio}%</span>
                         </td>
                         </tr>

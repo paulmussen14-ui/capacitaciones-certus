@@ -164,3 +164,10 @@ export async function quitarFoto(id) {
     await borrarImagen(existente.foto_url);
     return usuario;
 }
+
+
+export async function capacitacionesDe(id) {
+    const existente = await usuariosRepository.buscarPorId(id);
+    if (!existente) throw new NotFoundError("Usuario no encontrado");
+    return usuariosRepository.capacitacionesDeUsuario(id);
+}
