@@ -6,6 +6,7 @@ import AdminInicio from "./pages/AdminInicio/AdminInicio";
 import Capacitaciones from "./pages/Capacitaciones/Capacitaciones";
 import Docentes from "./pages/Docentes/Docentes";
 import Login from "./pages/Login/Login";
+import Metricas from "./pages/Metricas/Metricas";
 import Panel from "./pages/Panel/Panel";
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/admin" element={<AdminInicio />} />
           <Route path="/admin/capacitaciones" element={<Capacitaciones />} />
           <Route path="/admin/docentes" element={<Docentes />} />
+          <Route path="/admin/metricas" element={<Metricas />} />
         </Route>
       </Route>
 

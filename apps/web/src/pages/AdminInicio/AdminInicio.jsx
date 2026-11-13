@@ -27,6 +27,13 @@ export default function AdminInicio() {
                 Ir a docentes
             </Link>
             </Card>
+
+            <Card titulo="Métricas">
+            <p>Mira qué docentes llevan el mejor progreso en sus capacitaciones.</p>
+            <Link className="btn btn--primary btn--md" to="/admin/metricas">
+                Ir a métricas
+            </Link>
+            </Card>
         </div>
         </>
     );

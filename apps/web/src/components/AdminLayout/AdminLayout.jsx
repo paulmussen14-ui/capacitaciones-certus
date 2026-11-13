@@ -7,6 +7,7 @@ const ENLACES_ADMIN = [
     { to: '/admin', texto: 'Inicio', end: true },
     { to: '/admin/capacitaciones', texto: 'Capacitaciones' },
     { to: '/admin/docentes', texto: 'Docentes' },
+    { to: '/admin/metricas', texto: 'Métricas' },
 ];
 
 export default function AdminLayout() {
