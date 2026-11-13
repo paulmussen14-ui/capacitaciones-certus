@@ -17,31 +17,31 @@ Guía paso a paso, de la raíz del proyecto hasta la entrega final. Marca cada c
 
 ### Convenciones
 
-| Tema | Regla |
-|---|---|
+| Tema                 | Regla                                                                                                |
+| -------------------- | ---------------------------------------------------------------------------------------------------- |
 | Terminal recomendada | **Git Bash** dentro de VS Code. Si usas PowerShell, donde un comando cambia verás las dos versiones. |
-| Ramas | `main` (estable) → `develop` (integración) → `feature/nombre-de-la-tarea` (tu trabajo) |
-| Commits | Con prefijo: `feat:` (algo nuevo), `fix:` (arreglo), `docs:`, `chore:`, `refactor:` |
-| Pull Requests | Nada entra a `main` ni a `develop` sin Pull Request |
-| Secretos | Solo `.env.example` se sube. El `.env` real **nunca** |
-| Rutas de ejemplo | Proyecto en `C:\proyectos\capacitaciones-certus` (en Git Bash: `/c/proyectos/capacitaciones-certus`) |
+| Ramas                | `main` (estable) → `develop` (integración) → `feature/nombre-de-la-tarea` (tu trabajo)               |
+| Commits              | Con prefijo: `feat:` (algo nuevo), `fix:` (arreglo), `docs:`, `chore:`, `refactor:`                  |
+| Pull Requests        | Nada entra a `main` ni a `develop` sin Pull Request                                                  |
+| Secretos             | Solo `.env.example` se sube. El `.env` real **nunca**                                                |
+| Rutas de ejemplo     | Proyecto en `C:\proyectos\capacitaciones-certus` (en Git Bash: `/c/proyectos/capacitaciones-certus`) |
 
 ### Mapa de etapas (sugerido para las 8 semanas)
 
-| Etapa | Contenido | Semana sugerida |
-|---|---|---|
-| 0 | Raíz del proyecto: carpetas, Docker, API base, React base | 1 |
-| 1 | Modelo de datos en PostgreSQL | 2 |
-| 2 | Autenticación y roles | 2-3 |
-| 3 | Gestión de capacitaciones y docentes | 3 |
-| **Evaluación de avance** | Presentación + informe (50 % de la nota) | **4** |
-| 4 | Asignación y progreso | 5 |
-| 5 | Constancias en PDF con código QR | 6 |
-| 6 | Reportes con filtros y exportación | 6 |
-| 7 | Calidad: errores, seguridad, pruebas, responsive | 7 |
-| 8 | Docker completo y GitHub Actions | 7 |
-| 9 | Documentación, informe final y exposición | 7-8 |
-| **Evaluación final** | Informe final + Pitch de 5 a 7 minutos (50 % de la nota) | **8** |
+| Etapa                    | Contenido                                                 | Semana sugerida |
+| ------------------------ | --------------------------------------------------------- | --------------- |
+| 0                        | Raíz del proyecto: carpetas, Docker, API base, React base | 1               |
+| 1                        | Modelo de datos en PostgreSQL                             | 2               |
+| 2                        | Autenticación y roles                                     | 2-3             |
+| 3                        | Gestión de capacitaciones y docentes                      | 3               |
+| **Evaluación de avance** | Presentación + informe (50 % de la nota)                  | **4**           |
+| 4                        | Asignación y progreso                                     | 5               |
+| 5                        | Constancias en PDF con código QR                          | 6               |
+| 6                        | Reportes con filtros y exportación                        | 6               |
+| 7                        | Calidad: errores, seguridad, pruebas, responsive          | 7               |
+| 8                        | Docker completo y GitHub Actions                          | 7               |
+| 9                        | Documentación, informe final y exposición                 | 7-8             |
+| **Evaluación final**     | Informe final + Pitch de 5 a 7 minutos (50 % de la nota)  | **8**           |
 
 ---
 
@@ -62,9 +62,9 @@ Guía paso a paso, de la raíz del proyecto hasta la entrega final. Marca cada c
 
 1. GitHub > tu repo > **Settings > Rules > Rulesets > New ruleset > New branch ruleset**.
 2. **Ruleset Name:** `proteger-main-y-develop`.
-3. **Enforcement status:** **Active** (si queda en *Disabled*, no hace nada).
-4. **Target branches > Add target:** *Include default branch* y *Include by pattern* con `develop`.
-5. En **Branch rules** marca: *Restrict deletions*, *Block force pushes* y *Require a pull request before merging*.
+3. **Enforcement status:** **Active** (si queda en _Disabled_, no hace nada).
+4. **Target branches > Add target:** _Include default branch_ y _Include by pattern_ con `develop`.
+5. En **Branch rules** marca: _Restrict deletions_, _Block force pushes_ y _Require a pull request before merging_.
 6. Pulsa **Create**.
 
 ---
@@ -144,25 +144,25 @@ NODE_ENV=development
 SESSION_SECRET=cambia_este_secreto_largo
 ```
 
-- [ ] Crea tu copia real.
+- [x] Crea tu copia real.
 
 Git Bash: `cp .env.example .env`
 
 PowerShell: `Copy-Item .env.example .env`
 
-- [ ] Abre `.env` y cambia `POSTGRES_PASSWORD` y `SESSION_SECRET` por valores propios (una clave que no uses en otro sitio y un texto largo y aleatorio).
+- [x] Abre `.env` y cambia `POSTGRES_PASSWORD` y `SESSION_SECRET` por valores propios (una clave que no uses en otro sitio y un texto largo y aleatorio).
 
 ### 0.4 Verificar que `.env` está protegido
 
-- [ ] Ejecuta:
+- [x] Ejecuta:
 
 ```bash
 git check-ignore -v .env
 git check-ignore -v .env.example
 ```
 
-- [ ] El primero muestra una línea con `.gitignore` (significa que se ignora). El segundo **no muestra nada** (significa que sí se subirá).
-- [ ] Si el primero no muestra nada: abre `.gitignore`, agrega una línea `.env`, guarda y repite.
+- [x] El primero muestra una línea con `.gitignore` (significa que se ignora). El segundo **no muestra nada** (significa que sí se subirá).
+- [x] Si el primero no muestra nada: abre `.gitignore`, agrega una línea `.env`, guarda y repite.
 
 ### 0.5 Primer commit de la rama
 
@@ -172,13 +172,13 @@ git add .
 git commit -m "chore: estructura de carpetas y variables de entorno de ejemplo"
 ```
 
-- [ ] `git status` **no** listó `.env` antes de confirmar.
-- [ ] El commit se creó sin errores.
+- [x] `git status` **no** listó `.env` antes de confirmar.
+- [x] El commit se creó sin errores.
 
 ### 0.6 PostgreSQL con Docker
 
-- [ ] Abre **Docker Desktop** y espera a que diga que está en ejecución.
-- [ ] Crea `docker-compose.yml` en la raíz:
+- [x] Abre **Docker Desktop** y espera a que diga que está en ejecución.
+- [x] Crea `docker-compose.yml` en la raíz:
 
 ```yaml
 services:
@@ -199,7 +199,7 @@ volumes:
   db_data:
 ```
 
-- [ ] Levántala y comprueba:
+- [x] Levántala y comprueba:
 
 ```bash
 docker compose up -d
@@ -209,25 +209,25 @@ docker compose exec db psql -U capacitaciones -d capacitaciones_db -c "select ve
 
 (Si cambiaste el usuario o la base en tu `.env`, usa esos nombres.)
 
-- [ ] `docker compose ps` muestra `db` en estado *running*.
-- [ ] El último comando muestra la versión de PostgreSQL.
+- [x] `docker compose ps` muestra `db` en estado _running_.
+- [x] El último comando muestra la versión de PostgreSQL.
 
 Comandos útiles:
 
-| Comando | Qué hace |
-|---|---|
-| `docker compose stop` | Apaga la base sin borrar datos |
-| `docker compose up -d` | La enciende |
-| `docker compose down` | Elimina el contenedor, conserva los datos |
+| Comando                  | Qué hace                                    |
+| ------------------------ | ------------------------------------------- |
+| `docker compose stop`    | Apaga la base sin borrar datos              |
+| `docker compose up -d`   | La enciende                                 |
+| `docker compose down`    | Elimina el contenedor, conserva los datos   |
 | `docker compose down -v` | Elimina también los datos (empezar de cero) |
-| `docker compose logs db` | Ver los mensajes de la base |
+| `docker compose logs db` | Ver los mensajes de la base                 |
 
 ```bash
 git add .
 git commit -m "chore: PostgreSQL en Docker Compose"
 ```
 
-- [ ] Commit hecho.
+- [x] Commit hecho.
 
 ### 0.7 La API: crear el proyecto
 
@@ -253,7 +253,7 @@ PowerShell:
 mkdir src\config, src\routes, src\controllers, src\services, src\repositories, src\middlewares, src\errors
 ```
 
-- [ ] Abre `apps/api/package.json` y agrega/ajusta estas dos partes (el resto queda igual):
+- [x] Abre `apps/api/package.json` y agrega/ajusta estas dos partes (el resto queda igual):
 
 ```json
 "type": "module",
@@ -267,33 +267,33 @@ mkdir src\config, src\routes, src\controllers, src\services, src\repositories, s
 
 Qué hace cada carpeta:
 
-| Carpeta | Responsabilidad |
-|---|---|
-| `routes/` | Define las URLs (`/api/capacitaciones`) |
-| `controllers/` | Recibe la petición y arma la respuesta |
-| `services/` | Lógica de negocio (las reglas del sistema) |
-| `repositories/` | Consultas SQL |
-| `middlewares/` | Código que corre antes o después (login, roles, errores) |
-| `config/` | Variables de entorno y conexión a la BD |
-| `errors/` | Tipos de error propios |
+| Carpeta         | Responsabilidad                                          |
+| --------------- | -------------------------------------------------------- |
+| `routes/`       | Define las URLs (`/api/capacitaciones`)                  |
+| `controllers/`  | Recibe la petición y arma la respuesta                   |
+| `services/`     | Lógica de negocio (las reglas del sistema)               |
+| `repositories/` | Consultas SQL                                            |
+| `middlewares/`  | Código que corre antes o después (login, roles, errores) |
+| `config/`       | Variables de entorno y conexión a la BD                  |
+| `errors/`       | Tipos de error propios                                   |
 
 ### 0.8 La API: crear los archivos
 
 Crea cada archivo en la ruta indicada, con VS Code.
 
-- [ ] **`apps/api/src/config/env.js`**
+- [x] **`apps/api/src/config/env.js`**
 
 ```js
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 
 // Se ejecuta desde apps/api, por eso subimos dos niveles hasta la raíz
-dotenv.config({ path: '../../.env' });
+dotenv.config({ path: "../../.env" });
 
 export const env = {
-  nodeEnv: process.env.NODE_ENV || 'development',
+  nodeEnv: process.env.NODE_ENV || "development",
   port: Number(process.env.API_PORT) || 3000,
   db: {
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || "localhost",
     port: Number(process.env.POSTGRES_PORT) || 5432,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
@@ -302,11 +302,11 @@ export const env = {
 };
 ```
 
-- [ ] **`apps/api/src/config/db.js`**
+- [x] **`apps/api/src/config/db.js`**
 
 ```js
-import pg from 'pg';
-import { env } from './env.js';
+import pg from "pg";
+import { env } from "./env.js";
 
 export const pool = new pg.Pool(env.db);
 
@@ -314,11 +314,11 @@ export const pool = new pg.Pool(env.db);
 export const query = (text, params) => pool.query(text, params);
 ```
 
-- [ ] **`apps/api/src/errors/AppError.js`**
+- [x] **`apps/api/src/errors/AppError.js`**
 
 ```js
 export class AppError extends Error {
-  constructor(message, statusCode = 500, code = 'INTERNAL_ERROR') {
+  constructor(message, statusCode = 500, code = "INTERNAL_ERROR") {
     super(message);
     this.statusCode = statusCode;
     this.code = code;
@@ -326,40 +326,40 @@ export class AppError extends Error {
 }
 
 export class NotFoundError extends AppError {
-  constructor(message = 'Recurso no encontrado') {
-    super(message, 404, 'NOT_FOUND');
+  constructor(message = "Recurso no encontrado") {
+    super(message, 404, "NOT_FOUND");
   }
 }
 
 export class ValidationError extends AppError {
-  constructor(message = 'Datos inválidos') {
-    super(message, 400, 'VALIDATION_ERROR');
+  constructor(message = "Datos inválidos") {
+    super(message, 400, "VALIDATION_ERROR");
   }
 }
 
 export class UnauthorizedError extends AppError {
-  constructor(message = 'No autenticado') {
-    super(message, 401, 'UNAUTHORIZED');
+  constructor(message = "No autenticado") {
+    super(message, 401, "UNAUTHORIZED");
   }
 }
 
 export class ForbiddenError extends AppError {
-  constructor(message = 'No tienes permisos para esta acción') {
-    super(message, 403, 'FORBIDDEN');
+  constructor(message = "No tienes permisos para esta acción") {
+    super(message, 403, "FORBIDDEN");
   }
 }
 ```
 
-- [ ] **`apps/api/src/middlewares/errorHandler.js`**
+- [x] **`apps/api/src/middlewares/errorHandler.js`**
 
 ```js
-import { AppError } from '../errors/AppError.js';
-import { env } from '../config/env.js';
+import { AppError } from "../errors/AppError.js";
+import { env } from "../config/env.js";
 
 export function notFound(req, res, next) {
   res.status(404).json({
     error: {
-      code: 'NOT_FOUND',
+      code: "NOT_FOUND",
       message: `Ruta no encontrada: ${req.method} ${req.originalUrl}`,
     },
   });
@@ -374,9 +374,9 @@ export function errorHandler(err, req, res, next) {
 
   res.status(statusCode).json({
     error: {
-      code: isKnown ? err.code : 'INTERNAL_ERROR',
-      message: isKnown ? err.message : 'Ocurrió un error interno',
-      ...(env.nodeEnv === 'development' && !isKnown && { detail: err.message }),
+      code: isKnown ? err.code : "INTERNAL_ERROR",
+      message: isKnown ? err.message : "Ocurrió un error interno",
+      ...(env.nodeEnv === "development" && !isKnown && { detail: err.message }),
     },
   });
 }
@@ -384,52 +384,56 @@ export function errorHandler(err, req, res, next) {
 
 > Todas las respuestas de error tienen el mismo formato: `{ error: { code, message } }`. El frontend siempre sabrá cómo leerlas.
 
-- [ ] **`apps/api/src/routes/health.routes.js`**
+- [x] **`apps/api/src/routes/health.routes.js`**
 
 ```js
-import { Router } from 'express';
-import { query } from '../config/db.js';
+import { Router } from "express";
+import { query } from "../config/db.js";
 
 const router = Router();
 
-router.get('/', async (req, res) => {
-  const result = await query('SELECT NOW() AS hora');
-  res.json({ status: 'ok', baseDeDatos: 'conectada', hora: result.rows[0].hora });
+router.get("/", async (req, res) => {
+  const result = await query("SELECT NOW() AS hora");
+  res.json({
+    status: "ok",
+    baseDeDatos: "conectada",
+    hora: result.rows[0].hora,
+  });
 });
 
 export default router;
 ```
 
-- [ ] **`apps/api/src/routes/index.js`**
+- [x] **`apps/api/src/routes/index.js`**
 
 ```js
-import { Router } from 'express';
-import healthRoutes from './health.routes.js';
+import { Router } from "express";
+import healthRoutes from "./health.routes.js";
 
 const router = Router();
 
-router.use('/health', healthRoutes);
+router.use("/health", healthRoutes);
 // Aquí iremos agregando: /auth, /capacitaciones, /usuarios, /inscripciones...
 
 export default router;
 ```
 
-- [ ] **`apps/api/src/app.js`**
+- [x] **`apps/api/src/app.js`**
 
 ```js
-import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import routes from './routes/index.js';
-import { notFound, errorHandler } from './middlewares/errorHandler.js';
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import routes from "./routes/index.js";
+import { notFound, errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 
-app.use('/api', routes);
+app.use("/api", routes);
 
 // Siempre al final: primero la ruta no encontrada, luego el manejador de errores
 app.use(notFound);
@@ -438,11 +442,11 @@ app.use(errorHandler);
 export default app;
 ```
 
-- [ ] **`apps/api/src/server.js`**
+- [x] **`apps/api/src/server.js`**
 
 ```js
-import app from './app.js';
-import { env } from './config/env.js';
+import app from "./app.js";
+import { env } from "./config/env.js";
 
 app.listen(env.port, () => {
   console.log(`API escuchando en http://localhost:${env.port}`);
@@ -453,11 +457,11 @@ app.listen(env.port, () => {
 
 ### 0.9 La API: probarla
 
-- [ ] Desde `apps/api` ejecuta `npm run dev`. Debe decir `API escuchando en http://localhost:3000`.
-- [ ] Abre `http://localhost:3000/api/health`: debe mostrar `"status":"ok"`.
-- [ ] Abre `http://localhost:3000/api/loquesea`: debe mostrar el JSON de error 404.
-- [ ] Apaga la base (`docker compose stop db`, desde la raíz), recarga `/api/health`: debe responder un error 500 controlado y la API **no se cae**.
-- [ ] Enciende la base otra vez (`docker compose up -d`).
+- [x] Desde `apps/api` ejecuta `npm run dev`. Debe decir `API escuchando en http://localhost:3000`.
+- [x] Abre `http://localhost:3000/api/health`: debe mostrar `"status":"ok"`.
+- [x] Abre `http://localhost:3000/api/loquesea`: debe mostrar el JSON de error 404.
+- [x] Apaga la base (`docker compose stop db`, desde la raíz), recarga `/api/health`: debe responder un error 500 controlado y la API **no se cae**.
+- [x] Enciende la base otra vez (`docker compose up -d`).
 
 Deja la API corriendo y **abre una segunda terminal** (signo **+** del panel de terminal).
 
@@ -467,7 +471,7 @@ git add .
 git commit -m "feat(api): servidor Express, conexion a PostgreSQL y manejo de errores"
 ```
 
-- [ ] Commit hecho.
+- [x] Commit hecho.
 
 ### 0.10 El frontend: crear el proyecto
 
@@ -483,7 +487,7 @@ npm install react-router-dom
 
 (Si el asistente pregunta, elige **JavaScript** y deja el resto por defecto.)
 
-- [ ] Borra `src/App.css`, `src/index.css` y lo que haya dentro de `src/assets/`.
+- [x] Borra `src/App.css`, `src/index.css` y lo que haya dentro de `src/assets/`.
 
 Crear la estructura.
 
@@ -514,7 +518,7 @@ Reglas para mantener el CSS ordenado:
 
 ### 0.11 El frontend: estilos base
 
-- [ ] **`src/styles/base/variables.css`**
+- [x] **`src/styles/base/variables.css`**
 
 ```css
 :root {
@@ -532,7 +536,7 @@ Reglas para mantener el CSS ordenado:
   --color-danger: #dc2626;
 
   /* Tipografía */
-  --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
   --font-size-lg: 1.25rem;
@@ -549,7 +553,7 @@ Reglas para mantener el CSS ordenado:
 }
 ```
 
-- [ ] **`src/styles/base/reset.css`**
+- [x] **`src/styles/base/reset.css`**
 
 ```css
 *,
@@ -580,24 +584,30 @@ textarea {
 }
 ```
 
-- [ ] **`src/styles/base/typography.css`**
+- [x] **`src/styles/base/typography.css`**
 
 ```css
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin: 0 0 var(--space-3);
   line-height: 1.2;
   color: var(--color-primary);
 }
 
-h1 { font-size: var(--font-size-xl); }
-h2 { font-size: var(--font-size-lg); }
+h1 {
+  font-size: var(--font-size-xl);
+}
+h2 {
+  font-size: var(--font-size-lg);
+}
 
 a {
   color: var(--color-primary);
 }
 ```
 
-- [ ] **`src/styles/layout/container.css`**
+- [x] **`src/styles/layout/container.css`**
 
 ```css
 .container {
@@ -608,39 +618,47 @@ a {
 }
 ```
 
-- [ ] **`src/styles/utilities/helpers.css`**
+- [x] **`src/styles/utilities/helpers.css`**
 
 ```css
-.text-center { text-align: center; }
-.text-muted { color: var(--color-text-muted); }
-.mt-3 { margin-top: var(--space-3); }
-.mb-3 { margin-bottom: var(--space-3); }
+.text-center {
+  text-align: center;
+}
+.text-muted {
+  color: var(--color-text-muted);
+}
+.mt-3 {
+  margin-top: var(--space-3);
+}
+.mb-3 {
+  margin-bottom: var(--space-3);
+}
 ```
 
-- [ ] **`src/styles/main.css`** (es el único que importa al resto)
+- [x] **`src/styles/main.css`** (es el único que importa al resto)
 
 ```css
-@import './base/variables.css';
-@import './base/reset.css';
-@import './base/typography.css';
-@import './layout/container.css';
-@import './utilities/helpers.css';
+@import "./base/variables.css";
+@import "./base/reset.css";
+@import "./base/typography.css";
+@import "./layout/container.css";
+@import "./utilities/helpers.css";
 ```
 
-- [ ] En `src/main.jsx`, reemplaza la importación del CSS antiguo (`import './index.css'`) por:
+- [x] En `src/main.jsx`, reemplaza la importación del CSS antiguo (`import './index.css'`) por:
 
 ```jsx
-import './styles/main.css';
+import "./styles/main.css";
 ```
 
 ### 0.12 El frontend: un componente de ejemplo y la conexión con la API
 
-- [ ] **`src/components/Button/Button.jsx`**
+- [x] **`src/components/Button/Button.jsx`**
 
 ```jsx
-import './Button.css';
+import "./Button.css";
 
-export default function Button({ children, variant = 'primary', ...props }) {
+export default function Button({ children, variant = "primary", ...props }) {
   return (
     <button className={`btn btn--${variant}`} {...props}>
       {children}
@@ -649,7 +667,7 @@ export default function Button({ children, variant = 'primary', ...props }) {
 }
 ```
 
-- [ ] **`src/components/Button/Button.css`**
+- [x] **`src/components/Button/Button.css`**
 
 ```css
 .btn {
@@ -675,7 +693,7 @@ export default function Button({ children, variant = 'primary', ...props }) {
 }
 ```
 
-- [ ] En **`vite.config.js`**, deja el archivo como está y agrega solo el bloque `server` dentro de `defineConfig`:
+- [x] En **`vite.config.js`**, deja el archivo como está y agrega solo el bloque `server` dentro de `defineConfig`:
 
 ```js
 server: {
@@ -684,37 +702,39 @@ server: {
 },
 ```
 
-- [ ] **`src/services/api.js`**
+- [x] **`src/services/api.js`**
 
 ```js
 // Todas las llamadas al backend pasan por aquí
 export async function apiFetch(path, options = {}) {
   const response = await fetch(`/api${path}`, {
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
     ...options,
   });
 
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data?.error?.message || 'Error de conexión con el servidor');
+    throw new Error(
+      data?.error?.message || "Error de conexión con el servidor",
+    );
   }
   return data;
 }
 ```
 
-- [ ] **`src/App.jsx`** (prueba temporal; reemplaza todo el contenido)
+- [x] **`src/App.jsx`** (prueba temporal; reemplaza todo el contenido)
 
 ```jsx
-import { useEffect, useState } from 'react';
-import { apiFetch } from './services/api';
+import { useEffect, useState } from "react";
+import { apiFetch } from "./services/api";
 
 export default function App() {
-  const [estado, setEstado] = useState('Comprobando conexión...');
+  const [estado, setEstado] = useState("Comprobando conexión...");
 
   useEffect(() => {
-    apiFetch('/health')
+    apiFetch("/health")
       .then((d) => setEstado(`API y base de datos: ${d.status}`))
       .catch((e) => setEstado(`Error: ${e.message}`));
   }, []);
@@ -732,9 +752,9 @@ export default function App() {
 - Las que usan los componentes van en `src/assets/images/` y se importan:
 
 ```jsx
-import logo from '../../assets/images/logos/logo-certus.svg';
+import logo from "../../assets/images/logos/logo-certus.svg";
 
-<img src={logo} alt="Logo de CERTUS" />
+<img src={logo} alt="Logo de CERTUS" />;
 ```
 
 - Lo que necesita una URL fija (como el favicon) va en `public/`.
@@ -744,9 +764,9 @@ import logo from '../../assets/images/logos/logo-certus.svg';
 
 ### 0.13 El frontend: probarlo
 
-- [ ] Con la API encendida en la otra terminal, ejecuta en `apps/web`: `npm run dev`.
-- [ ] Abre `http://localhost:5173`: debe mostrar **"API y base de datos: ok"**.
-- [ ] Apaga la API (`Ctrl + C` en su terminal) y recarga: debe mostrar un `Error:` legible, sin pantalla en blanco. Enciéndela de nuevo.
+- [x] Con la API encendida en la otra terminal, ejecuta en `apps/web`: `npm run dev`.
+- [x] Abre `http://localhost:5173`: debe mostrar **"API y base de datos: ok"**.
+- [x] Apaga la API (`Ctrl + C` en su terminal) y recarga: debe mostrar un `Error:` legible, sin pantalla en blanco. Enciéndela de nuevo.
 
 ```bash
 cd /c/proyectos/capacitaciones-certus
@@ -754,11 +774,11 @@ git add .
 git commit -m "feat(web): proyecto React con estilos base ordenados y conexion a la API"
 ```
 
-- [ ] Commit hecho.
+- [x] Commit hecho.
 
 ### 0.14 README del proyecto
 
-- [ ] Reemplaza el contenido de `README.md` por:
+- [x] Reemplaza el contenido de `README.md` por:
 
 ```markdown
 # Capacitación Docente – CERTUS
@@ -766,12 +786,15 @@ git commit -m "feat(web): proyecto React con estilos base ordenados y conexion a
 Prototipo de aplicación web responsiva para gestionar las capacitaciones de los docentes de CERTUS: seguimiento del progreso, constancias descargables y reportes para el gestor.
 
 ## Tecnologías
+
 Node.js + Express · PostgreSQL · React (Vite) · Docker · GitHub Actions
 
 ## Requisitos
+
 Node.js LTS, Git y Docker Desktop.
 
 ## Cómo ejecutar
+
 1. Copia las variables de entorno y edítalas: `cp .env.example .env`
 2. Levanta la base de datos: `docker compose up -d`
 3. API: `cd apps/api && npm install && npm run dev`
@@ -779,12 +802,14 @@ Node.js LTS, Git y Docker Desktop.
 5. Abre http://localhost:5173
 
 ## Normas de trabajo
+
 - Ramas: `main` (estable) → `develop` → `feature/nombre-de-la-tarea`.
 - Todo cambio entra por Pull Request.
 - Commits con prefijo: `feat:`, `fix:`, `docs:`, `chore:`.
 - El archivo `.env` nunca se sube.
 
 ## Integrantes
+
 (Agrega aquí los nombres del equipo)
 ```
 
@@ -793,7 +818,7 @@ git add .
 git commit -m "docs: README con instrucciones de ejecucion y normas de trabajo"
 ```
 
-- [ ] Commit hecho.
+- [x] Commit hecho.
 
 ### 0.15 Subir y unir a `develop`
 
@@ -801,10 +826,10 @@ git commit -m "docs: README con instrucciones de ejecucion y normas de trabajo"
 git push -u origin feature/estructura-inicial
 ```
 
-- [ ] En GitHub aparece **Compare & pull request**. Créalo con destino `develop`.
-- [ ] Escribe en la descripción qué incluye (carpetas, Docker, API base, React base).
-- [ ] Si hay compañeros, pide que alguien lo revise. Luego pulsa **Merge pull request**.
-- [ ] Actualiza tu PC:
+- [x] En GitHub aparece **Compare & pull request**. Créalo con destino `develop`.
+- [x] Escribe en la descripción qué incluye (carpetas, Docker, API base, React base).
+- [x] Si hay compañeros, pide que alguien lo revise. Luego pulsa **Merge pull request**.
+- [x] Actualiza tu PC:
 
 ```bash
 git switch develop
@@ -813,11 +838,11 @@ git pull
 
 ### Etapa 0: listo cuando...
 
-- [ ] `docker compose ps` muestra `db` en ejecución
-- [ ] `/api/health` responde `ok` y una ruta inexistente devuelve JSON 404
-- [ ] React muestra "API y base de datos: ok"
-- [ ] `.env` no está en GitHub y `.env.example` sí
-- [ ] Todo está unido en `develop`
+- [x] `docker compose ps` muestra `db` en ejecución
+- [x] `/api/health` responde `ok` y una ruta inexistente devuelve JSON 404
+- [x] React muestra "API y base de datos: ok"
+- [x] `.env` no está en GitHub y `.env.example` sí
+- [x] Todo está unido en `develop`
 
 ---
 
@@ -833,10 +858,10 @@ git pull
 git switch -c feature/modelo-datos
 ```
 
-- [ ] Dibuja el diagrama entidad-relación (a mano, en https://dbdiagram.io o en draw.io) con las 4 tablas de abajo y guárdalo como imagen en `docs/modelo-datos.png`. Lo usarás en el informe.
+- [x] Dibuja el diagrama entidad-relación (a mano, en https://dbdiagram.io o en draw.io) con las 4 tablas de abajo y guárdalo como imagen en `docs/modelo-datos.png`. Lo usarás en el informe.
 
 Las 4 tablas y por qué existen:
-
+V
 | Tabla | Para qué |
 |---|---|
 | `usuarios` | Docentes y administradores (gestores), diferenciados por la columna `rol` |
@@ -846,7 +871,7 @@ Las 4 tablas y por qué existen:
 
 ### 1.2 Escribir el esquema
 
-- [ ] Crea **`database/schema.sql`**:
+- [x] Crea **`database/schema.sql`**:
 
 ```sql
 -- Esquema de la base de datos: Capacitación Docente (CERTUS)
@@ -912,18 +937,18 @@ CREATE INDEX idx_inscripciones_capacitacion ON inscripciones(capacitacion_id);
 
 Qué protege cada restricción:
 
-| Restricción | Regla de negocio |
-|---|---|
-| `usuarios.correo UNIQUE` | No hay dos cuentas con el mismo correo |
-| `CHECK (rol IN ...)` | Solo existen los roles docente y administrador |
-| `CHECK (estado IN ...)` | Solo hay tres estados: pendiente, en curso, completada |
+| Restricción                            | Regla de negocio                                              |
+| -------------------------------------- | ------------------------------------------------------------- |
+| `usuarios.correo UNIQUE`               | No hay dos cuentas con el mismo correo                        |
+| `CHECK (rol IN ...)`                   | Solo existen los roles docente y administrador                |
+| `CHECK (estado IN ...)`                | Solo hay tres estados: pendiente, en curso, completada        |
 | `UNIQUE (usuario_id, capacitacion_id)` | No se asigna dos veces la misma capacitación al mismo docente |
-| `constancias.inscripcion_id UNIQUE` | La constancia se genera **una sola vez** por inscripción |
-| `usuarios.activo` | Los usuarios se **desactivan**, no se eliminan |
+| `constancias.inscripcion_id UNIQUE`    | La constancia se genera **una sola vez** por inscripción      |
+| `usuarios.activo`                      | Los usuarios se **desactivan**, no se eliminan                |
 
 ### 1.3 Datos de ejemplo
 
-- [ ] Crea **`database/seed.sql`** (capacitaciones de ejemplo; los usuarios se crean en la Etapa 2 con contraseña cifrada):
+- [x] Crea **`database/seed.sql`** (capacitaciones de ejemplo; los usuarios se crean en la Etapa 2 con contraseña cifrada):
 
 ```sql
 INSERT INTO capacitaciones
@@ -951,15 +976,15 @@ Get-Content database\schema.sql -Raw | docker compose exec -T db psql -U capacit
 Get-Content database\seed.sql -Raw | docker compose exec -T db psql -U capacitaciones -d capacitaciones_db
 ```
 
-- [ ] Verifica las tablas:
+- [x] Verifica las tablas:
 
 ```bash
 docker compose exec db psql -U capacitaciones -d capacitaciones_db -c "\dt"
 docker compose exec db psql -U capacitaciones -d capacitaciones_db -c "select id, titulo from capacitaciones;"
 ```
 
-- [ ] Aparecen las 4 tablas y las 4 capacitaciones de ejemplo.
-- [ ] Prueba que la base te protege: intenta insertar un `rol` inválido y confirma que da error.
+- [x] Aparecen las 4 tablas y las 4 capacitaciones de ejemplo.
+- [x] Prueba que la base te protege: intenta insertar un `rol` inválido y confirma que da error.
 
 ```bash
 docker compose exec db psql -U capacitaciones -d capacitaciones_db -c "insert into usuarios (nombres, apellidos, correo, password_hash, rol) values ('x','y','z@z.com','abc','supervisor');"
@@ -967,7 +992,7 @@ docker compose exec db psql -U capacitaciones -d capacitaciones_db -c "insert in
 
 ### 1.5 Documentar y subir
 
-- [ ] Crea `docs/modelo-datos.md` explicando en pocas líneas cada tabla y la imagen del diagrama.
+- [x] Crea `docs/modelo-datos.md` explicando en pocas líneas cada tabla y la imagen del diagrama.
 
 ```bash
 git add .
@@ -975,13 +1000,13 @@ git commit -m "feat(db): esquema SQL, datos de ejemplo y documentacion del model
 git push -u origin feature/modelo-datos
 ```
 
-- [ ] Pull Request hacia `develop` y merge. Luego `git switch develop` y `git pull`.
+- [x] Pull Request hacia `develop` y merge. Luego `git switch develop` y `git pull`.
 
 ### Etapa 1: listo cuando...
 
-- [ ] Las 4 tablas existen y tienen sus restricciones
-- [ ] El diagrama está en `docs/`
-- [ ] Cualquier compañero puede recrear la base con 2 comandos (documentado en `docs/modelo-datos.md`)
+- [x] Las 4 tablas existen y tienen sus restricciones
+- [x] El diagrama está en `docs/`
+- [x] Cualquier compañero puede recrear la base con 2 comandos (documentado en `docs/modelo-datos.md`)
 
 ---
 
@@ -993,46 +1018,46 @@ git push -u origin feature/modelo-datos
 
 ### 2.1 Preparación
 
-- [ ] Rama: `git switch develop`, `git pull`, `git switch -c feature/autenticacion`.
-- [ ] Averigua con tu docente el **dominio del correo institucional** (por ejemplo `@certus.edu.pe`; **confirma el real**) y agrégalo a `.env.example` y `.env` como `ALLOWED_EMAIL_DOMAIN=...`.
-- [ ] Instala en `apps/api`: `npm install bcryptjs jsonwebtoken cookie-parser express-rate-limit`.
+- [x] Rama: `git switch develop`, `git pull`, `git switch -c feature/autenticacion`.
+- [x] Averigua con tu docente el **dominio del correo institucional** (por ejemplo `@certus.edu.pe`; **confirma el real**) y agrégalo a `.env.example` y `.env` como `ALLOWED_EMAIL_DOMAIN=...`.
+- [x] Instala en `apps/api`: `npm install bcryptjs jsonwebtoken cookie-parser express-rate-limit`.
 
 ### 2.2 Qué construirás en la API
 
-| Archivo | Responsabilidad |
-|---|---|
-| `repositories/usuarios.repository.js` | Buscar usuario por correo; crear; listar; activar o desactivar |
-| `services/auth.service.js` | Validar correo y dominio, comparar contraseña (`bcryptjs`), generar el token |
-| `controllers/auth.controller.js` | Recibir login y logout, y responder |
-| `routes/auth.routes.js` | `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me` |
-| `middlewares/requireAuth.js` | Verifica la cookie con el token en cada petición protegida |
-| `middlewares/requireRole.js` | `requireRole('administrador')` bloquea a quien no tenga el rol |
-| `scripts/seed-usuarios.js` | Crea un administrador y 3 docentes de prueba con contraseña cifrada |
+| Archivo                               | Responsabilidad                                                              |
+| ------------------------------------- | ---------------------------------------------------------------------------- |
+| `repositories/usuarios.repository.js` | Buscar usuario por correo; crear; listar; activar o desactivar               |
+| `services/auth.service.js`            | Validar correo y dominio, comparar contraseña (`bcryptjs`), generar el token |
+| `controllers/auth.controller.js`      | Recibir login y logout, y responder                                          |
+| `routes/auth.routes.js`               | `POST /api/auth/login`, `POST /api/auth/logout`, `GET /api/auth/me`          |
+| `middlewares/requireAuth.js`          | Verifica la cookie con el token en cada petición protegida                   |
+| `middlewares/requireRole.js`          | `requireRole('administrador')` bloquea a quien no tenga el rol               |
+| `scripts/seed-usuarios.js`            | Crea un administrador y 3 docentes de prueba con contraseña cifrada          |
 
 ### 2.3 Reglas de seguridad de esta etapa
 
-- [ ] Las contraseñas se guardan con **hash** (`bcryptjs`), nunca en texto plano.
-- [ ] El token JWT viaja en una **cookie `httpOnly`** (con `sameSite` y, en producción, `secure`).
-- [ ] El login tiene **límite de intentos** (`express-rate-limit`).
-- [ ] El mensaje de error del login es el mismo si falla el correo o la contraseña ("Credenciales inválidas").
-- [ ] Solo se aceptan correos del dominio institucional y usuarios con `activo = true`.
-- [ ] Las rutas de administrador están protegidas con `requireRole`, **también en el backend** (no solo ocultar botones).
+- [x] Las contraseñas se guardan con **hash** (`bcryptjs`), nunca en texto plano.
+- [x] El token JWT viaja en una **cookie `httpOnly`** (con `sameSite` y, en producción, `secure`).
+- [x] El login tiene **límite de intentos** (`express-rate-limit`).
+- [x] El mensaje de error del login es el mismo si falla el correo o la contraseña ("Credenciales inválidas").
+- [x] Solo se aceptan correos del dominio institucional y usuarios con `activo = true`.
+- [x] Las rutas de administrador están protegidas con `requireRole`, **también en el backend** (no solo ocultar botones).
 
 ### 2.4 Qué construirás en React
 
-- [ ] `pages/Login/` con formulario, mensajes de error claros y estado de carga.
-- [ ] `context/AuthContext.jsx` que guarda el usuario actual y llama a `/api/auth/me` al abrir la app.
-- [ ] `components/ProtectedRoute/` que redirige al login si no hay sesión, o a otra página si el rol no corresponde.
-- [ ] Rutas con React Router: `/login`, `/docente/...`, `/admin/...`.
+- [x] `pages/Login/` con formulario, mensajes de error claros y estado de carga.
+- [x] `context/AuthContext.jsx` que guarda el usuario actual y llama a `/api/auth/me` al abrir la app.
+- [x] `components/ProtectedRoute/` que redirige al login si no hay sesión, o a otra página si el rol no corresponde.
+- [x] Rutas con React Router: `/login`, `/docente/...`, `/admin/...`.
 
 ### 2.5 Pruebas manuales (Thunder Client o Postman)
 
-- [ ] Login correcto devuelve los datos del usuario y guarda la cookie.
-- [ ] Login con contraseña mala devuelve 401.
-- [ ] Login con correo fuera del dominio devuelve 400.
-- [ ] Un docente que llama a una ruta de administrador recibe 403.
-- [ ] Sin sesión, una ruta protegida devuelve 401.
-- [ ] Más de N intentos seguidos activan el límite.
+- [x] Login correcto devuelve los datos del usuario y guarda la cookie.
+- [x] Login con contraseña mala devuelve 401.
+- [x] Login con correo fuera del dominio devuelve 400.
+- [x] Un docente que llama a una ruta de administrador recibe 403.
+- [x] Sin sesión, una ruta protegida devuelve 401.
+- [x] Más de N intentos seguidos activan el límite.
 
 ```bash
 git add .
@@ -1040,12 +1065,12 @@ git commit -m "feat(auth): login con cookie httpOnly, roles y rutas protegidas"
 git push -u origin feature/autenticacion
 ```
 
-- [ ] Pull Request hacia `develop` y merge.
+- [x] Pull Request hacia `develop` y merge.
 
 ### Etapa 2: listo cuando...
 
-- [ ] Puedes entrar como administrador y como docente, y cada uno llega a su pantalla
-- [ ] Todas las pruebas de 2.5 pasan
+- [x] Puedes entrar como administrador y como docente, y cada uno llega a su pantalla
+- [x] Todas las pruebas de 2.5 pasan
 
 ---
 
@@ -1055,43 +1080,43 @@ git push -u origin feature/autenticacion
 
 ### 3.1 Preparación
 
-- [ ] Rama: `feature/gestion-capacitaciones`.
+- [x] Rama: `feature/gestion-capacitaciones`.
 
 ### 3.2 Endpoints (solo administrador)
 
-| Método y ruta | Qué hace |
-|---|---|
-| `GET /api/capacitaciones` | Lista (con búsqueda por título) |
-| `GET /api/capacitaciones/:id` | Detalle |
-| `POST /api/capacitaciones` | Crear |
-| `PUT /api/capacitaciones/:id` | Editar |
-| `PATCH /api/capacitaciones/:id/estado` | Activar o desactivar (no se borra) |
-| `GET /api/usuarios` | Lista de docentes y administradores |
-| `POST /api/usuarios` | Crear usuario |
-| `PUT /api/usuarios/:id` | Editar usuario |
-| `PATCH /api/usuarios/:id/estado` | Activar o desactivar |
+| Método y ruta                          | Qué hace                            |
+| -------------------------------------- | ----------------------------------- |
+| `GET /api/capacitaciones`              | Lista (con búsqueda por título)     |
+| `GET /api/capacitaciones/:id`          | Detalle                             |
+| `POST /api/capacitaciones`             | Crear                               |
+| `PUT /api/capacitaciones/:id`          | Editar                              |
+| `PATCH /api/capacitaciones/:id/estado` | Activar o desactivar (no se borra)  |
+| `GET /api/usuarios`                    | Lista de docentes y administradores |
+| `POST /api/usuarios`                   | Crear usuario                       |
+| `PUT /api/usuarios/:id`                | Editar usuario                      |
+| `PATCH /api/usuarios/:id/estado`       | Activar o desactivar                |
 
 ### 3.3 Reglas
 
-- [ ] Solo el administrador crea, edita o desactiva capacitaciones.
-- [ ] Validar los datos de entrada en el backend (campos obligatorios, duración mayor que 0, fecha fin posterior a fecha inicio, correo con dominio institucional).
-- [ ] Desactivar, **no eliminar**: se conserva el historial.
-- [ ] Cada fila lleva su fecha de creación (ya está en las tablas).
+- [x] Solo el administrador crea, edita o desactiva capacitaciones.
+- [x] Validar los datos de entrada en el backend (campos obligatorios, duración mayor que 0, fecha fin posterior a fecha inicio, correo con dominio institucional).
+- [x] Desactivar, **no eliminar**: se conserva el historial.
+- [x] Cada fila lleva su fecha de creación (ya está en las tablas).
 
 ### 3.4 Componentes base de React (con su propio CSS cada uno)
 
-- [ ] `Button`, `Input`, `Select`, `Card`, `Badge` (estados con color), `Table`, `Modal`, `Navbar`/`Sidebar`, `Toast` (avisos de éxito o error), `Spinner`.
-- [ ] Diseño responsivo: menú tipo hamburguesa en móvil, tablas con desplazamiento horizontal.
+- [x] `Button`, `Input`, `Select`, `Card`, `Badge` (estados con color), `Table`, `Modal`, `Navbar`/`Sidebar`, `Toast` (avisos de éxito o error), `Spinner`.
+- [x] Diseño responsivo: menú tipo hamburguesa en móvil, tablas con desplazamiento horizontal.
 
 ### 3.5 Pantallas
 
-- [ ] Administrador > Capacitaciones: tabla con búsqueda, botón **Nueva**, editar y desactivar.
-- [ ] Administrador > Docentes: tabla con alta, edición y desactivación.
+- [x] Administrador > Capacitaciones: tabla con búsqueda, botón **Nueva**, editar y desactivar.
+- [x] Administrador > Docentes: tabla con alta, edición y desactivación.
 
 ### 3.6 Pruebas y cierre
 
-- [ ] Crear una capacitación con datos inválidos muestra un mensaje claro (no pantalla en blanco).
-- [ ] Un docente no puede abrir las pantallas de administrador.
+- [x] Crear una capacitación con datos inválidos muestra un mensaje claro (no pantalla en blanco).
+- [x] Un docente no puede abrir las pantallas de administrador.
 
 ```bash
 git add .
@@ -1099,17 +1124,17 @@ git commit -m "feat: CRUD de capacitaciones y usuarios con validaciones"
 git push -u origin feature/gestion-capacitaciones
 ```
 
-- [ ] Pull Request y merge.
+- [x] Pull Request y merge.
 
 ### Etapa 3: listo cuando...
 
-- [ ] Administras capacitaciones y usuarios desde la interfaz, con validaciones y mensajes de error legibles
+- [x] Administras capacitaciones y usuarios desde la interfaz, con validaciones y mensajes de error legibles
 
 ---
 
 # EVALUACIÓN DE AVANCE (semana 4)
 
-Vale el **50 %** de la nota. Se califica con 5 criterios de 0 a 4 puntos (20 en total). Usa esta lista para llegar a *Sobresaliente*.
+Vale el **50 %** de la nota. Se califica con 5 criterios de 0 a 4 puntos (20 en total). Usa esta lista para llegar a _Sobresaliente_.
 
 ### Informe de avance (documento) y presentación
 
@@ -1127,24 +1152,24 @@ Vale el **50 %** de la nota. Se califica con 5 criterios de 0 a 4 puntos (20 en 
 
 ### Plantilla de riesgos (ajústala a tu equipo)
 
-| Riesgo | Probabilidad | Impacto | Mitigación |
-|---|---|---|---|
-| Pérdida de datos | Media | Alto | Copias de seguridad con `pg_dump` y volumen de Docker |
-| Fuga de credenciales | Media | Alto | `.env` fuera del repo, GitHub Secrets, claves rotadas |
-| Retraso por carga académica | Alta | Medio | Priorizar el alcance mínimo y revisar el avance cada semana |
-| Un integrante no disponible | Media | Medio | Pull Requests, documentación y tareas compartidas |
-| Vulnerabilidades en dependencias | Media | Medio | `npm audit` y Dependabot |
-| Diferencias entre PCs del equipo | Media | Bajo | Docker Compose para un entorno igual |
+| Riesgo                           | Probabilidad | Impacto | Mitigación                                                  |
+| -------------------------------- | ------------ | ------- | ----------------------------------------------------------- |
+| Pérdida de datos                 | Media        | Alto    | Copias de seguridad con `pg_dump` y volumen de Docker       |
+| Fuga de credenciales             | Media        | Alto    | `.env` fuera del repo, GitHub Secrets, claves rotadas       |
+| Retraso por carga académica      | Alta         | Medio   | Priorizar el alcance mínimo y revisar el avance cada semana |
+| Un integrante no disponible      | Media        | Medio   | Pull Requests, documentación y tareas compartidas           |
+| Vulnerabilidades en dependencias | Media        | Medio   | `npm audit` y Dependabot                                    |
+| Diferencias entre PCs del equipo | Media        | Bajo    | Docker Compose para un entorno igual                        |
 
 ### Plantilla de presupuesto (reemplaza los ejemplos por tus datos)
 
-| Concepto | Detalle | Costo estimado |
-|---|---|---|
-| Recurso humano | 5 integrantes × horas del proyecto (valorizado) | (calcula) |
-| Herramientas de desarrollo | Node.js, PostgreSQL, Docker, VS Code, GitHub (gratuitas) | S/ 0 |
-| Infraestructura de pruebas | Entorno local con Docker | S/ 0 |
-| Infraestructura de producción (proyección) | Servidor o hosting para el despliegue real | (cotiza) |
-| Mantenimiento anual (proyección) | Horas de soporte y actualizaciones | (estima) |
+| Concepto                                   | Detalle                                                  | Costo estimado |
+| ------------------------------------------ | -------------------------------------------------------- | -------------- |
+| Recurso humano                             | 5 integrantes × horas del proyecto (valorizado)          | (calcula)      |
+| Herramientas de desarrollo                 | Node.js, PostgreSQL, Docker, VS Code, GitHub (gratuitas) | S/ 0           |
+| Infraestructura de pruebas                 | Entorno local con Docker                                 | S/ 0           |
+| Infraestructura de producción (proyección) | Servidor o hosting para el despliegue real               | (cotiza)       |
+| Mantenimiento anual (proyección)           | Horas de soporte y actualizaciones                       | (estima)       |
 
 ### Presentación
 
@@ -1162,12 +1187,12 @@ Vale el **50 %** de la nota. Se califica con 5 criterios de 0 a 4 puntos (20 en 
 
 ### 4.2 Endpoints
 
-| Método y ruta | Rol | Qué hace |
-|---|---|---|
-| `POST /api/inscripciones` | Administrador | Asigna una capacitación a **uno o varios** docentes |
-| `GET /api/inscripciones` | Administrador | Lista con filtros (docente, capacitación, estado) |
-| `GET /api/inscripciones/mias` | Docente | Sus capacitaciones con estado y progreso |
-| `PATCH /api/inscripciones/:id/progreso` | Docente (dueño) | Actualiza progreso y estado |
+| Método y ruta                           | Rol             | Qué hace                                            |
+| --------------------------------------- | --------------- | --------------------------------------------------- |
+| `POST /api/inscripciones`               | Administrador   | Asigna una capacitación a **uno o varios** docentes |
+| `GET /api/inscripciones`                | Administrador   | Lista con filtros (docente, capacitación, estado)   |
+| `GET /api/inscripciones/mias`           | Docente         | Sus capacitaciones con estado y progreso            |
+| `PATCH /api/inscripciones/:id/progreso` | Docente (dueño) | Actualiza progreso y estado                         |
 
 ### 4.3 Reglas de negocio
 
@@ -1210,11 +1235,11 @@ git push -u origin feature/asignacion-progreso
 
 ### 5.2 Endpoints
 
-| Método y ruta | Acceso | Qué hace |
-|---|---|---|
-| `GET /api/constancias/mias` | Docente | Lista de sus constancias |
-| `GET /api/constancias/:id/descargar` | Dueño o administrador | Devuelve el PDF |
-| `GET /api/constancias/verificar/:codigo` | **Público** | Confirma si el código es auténtico |
+| Método y ruta                            | Acceso                | Qué hace                           |
+| ---------------------------------------- | --------------------- | ---------------------------------- |
+| `GET /api/constancias/mias`              | Docente               | Lista de sus constancias           |
+| `GET /api/constancias/:id/descargar`     | Dueño o administrador | Devuelve el PDF                    |
+| `GET /api/constancias/verificar/:codigo` | **Público**           | Confirma si el código es auténtico |
 
 ### 5.3 Reglas
 
@@ -1255,11 +1280,11 @@ git push -u origin feature/constancias
 
 ### 6.2 Endpoints (solo administrador)
 
-| Método y ruta | Qué hace |
-|---|---|
-| `GET /api/reportes/resumen` | Totales: inscripciones, completadas, en curso, pendientes y % de cumplimiento |
-| `GET /api/reportes/cumplimiento` | Detalle con filtros: sede, programa, docente, capacitación, estado, rango de fechas |
-| `GET /api/reportes/cumplimiento/exportar` | Mismo detalle en **CSV** |
+| Método y ruta                             | Qué hace                                                                            |
+| ----------------------------------------- | ----------------------------------------------------------------------------------- |
+| `GET /api/reportes/resumen`               | Totales: inscripciones, completadas, en curso, pendientes y % de cumplimiento       |
+| `GET /api/reportes/cumplimiento`          | Detalle con filtros: sede, programa, docente, capacitación, estado, rango de fechas |
+| `GET /api/reportes/cumplimiento/exportar` | Mismo detalle en **CSV**                                                            |
 
 ### 6.3 Reglas
 
@@ -1319,18 +1344,18 @@ git push -u origin feature/reportes
 
 ### 7.5 Casos de prueba manuales (anótalos con su resultado para el informe)
 
-| # | Caso | Resultado esperado | ¿Pasó? |
-|---|---|---|---|
-| 1 | Login correcto como docente | Entra al panel docente | [ ] |
-| 2 | Login con contraseña incorrecta | Mensaje "Credenciales inválidas" | [ ] |
-| 3 | Docente intenta abrir pantalla de administrador | Redirigido o 403 | [ ] |
-| 4 | Administrador crea capacitación válida | Aparece en el listado | [ ] |
-| 5 | Administrador asigna capacitación a 2 docentes | Ambos la ven | [ ] |
-| 6 | Docente llega a 100 % | Estado completada y constancia generada | [ ] |
-| 7 | Descargar constancia no completada | Rechazado | [ ] |
-| 8 | Verificar código inventado | "No válida" | [ ] |
-| 9 | Reporte filtrado por estado | Solo esos registros | [ ] |
-| 10 | Exportar CSV | Archivo con los datos filtrados | [ ] |
+| #   | Caso                                            | Resultado esperado                      | ¿Pasó? |
+| --- | ----------------------------------------------- | --------------------------------------- | ------ |
+| 1   | Login correcto como docente                     | Entra al panel docente                  | [ ]    |
+| 2   | Login con contraseña incorrecta                 | Mensaje "Credenciales inválidas"        | [ ]    |
+| 3   | Docente intenta abrir pantalla de administrador | Redirigido o 403                        | [ ]    |
+| 4   | Administrador crea capacitación válida          | Aparece en el listado                   | [ ]    |
+| 5   | Administrador asigna capacitación a 2 docentes  | Ambos la ven                            | [ ]    |
+| 6   | Docente llega a 100 %                           | Estado completada y constancia generada | [ ]    |
+| 7   | Descargar constancia no completada              | Rechazado                               | [ ]    |
+| 8   | Verificar código inventado                      | "No válida"                             | [ ]    |
+| 9   | Reporte filtrado por estado                     | Solo esos registros                     | [ ]    |
+| 10  | Exportar CSV                                    | Archivo con los datos filtrados         | [ ]    |
 
 ### 7.6 Cierre
 
@@ -1458,14 +1483,14 @@ docker compose exec -T db pg_dump -U capacitaciones capacitaciones_db > backup.s
 
 ### 9.3 Pitch de 5 a 7 minutos
 
-| Minutos | Contenido |
-|---|---|
-| 0:00-0:45 | Problema: el control de capacitaciones docentes en CERTUS |
-| 0:45-1:30 | Solución propuesta y a quién beneficia |
+| Minutos   | Contenido                                                                      |
+| --------- | ------------------------------------------------------------------------------ |
+| 0:00-0:45 | Problema: el control de capacitaciones docentes en CERTUS                      |
+| 0:45-1:30 | Solución propuesta y a quién beneficia                                         |
 | 1:30-4:30 | **Demo en vivo:** login, asignar, avanzar progreso, constancia con QR, reporte |
-| 4:30-5:30 | Tecnología y seguridad (en 3 ideas, sin entrar en código) |
-| 5:30-6:30 | Viabilidad, sostenibilidad y próximos pasos |
-| 6:30-7:00 | Cierre y preguntas |
+| 4:30-5:30 | Tecnología y seguridad (en 3 ideas, sin entrar en código)                      |
+| 5:30-6:30 | Viabilidad, sostenibilidad y próximos pasos                                    |
+| 6:30-7:00 | Cierre y preguntas                                                             |
 
 - [ ] Ensayo completo con cronómetro, repartiendo quién habla en cada parte.
 - [ ] Plan B: video corto de la demo por si falla internet o Docker.
@@ -1478,19 +1503,19 @@ docker compose exec -T db pg_dump -U capacitaciones capacitaciones_db > backup.s
 
 ## Problemas comunes
 
-| Síntoma | Causa probable | Solución |
-|---|---|---|
-| `GH007: Your push would publish a private email address` | Tu correo personal está en los commits | Usa el correo `noreply` de GitHub y repite el commit con `git commit --amend --reset-author --no-edit` |
-| `mkdir -p` o `touch` no funcionan | Estás en PowerShell | Cambia a Git Bash o usa la versión PowerShell indicada |
-| El puerto 5432 está ocupado | Hay otro PostgreSQL instalado | Cambia `POSTGRES_PORT` en `.env` (por ejemplo a 5433) y ejecuta `docker compose up -d` |
-| `password authentication failed` | Cambiaste la clave en `.env` después de crear la base | `docker compose down -v` y `docker compose up -d` (borra los datos) |
-| `ECONNREFUSED` | La base no está encendida o `DB_HOST` está mal | `docker compose ps` y revisa `.env` |
-| Error de CORS en el navegador | Puerto del frontend distinto o proxy mal puesto | Usa el puerto 5173 y revisa el `proxy` en `vite.config.js` |
-| `docker` no se reconoce | Docker Desktop cerrado | Ábrelo y espera a que termine de iniciar |
-| La API no lee el `.env` | Ejecutas `npm run dev` desde otra carpeta | Hazlo desde `apps/api` |
-| Aviso `LF will be replaced by CRLF` | Windows convierte saltos de línea | Es normal; no hace falta hacer nada |
-| `git push` rechazado por la regla | Intentas subir directo a `main` o `develop` | Trabaja en una rama `feature/...` y abre un Pull Request |
+| Síntoma                                                  | Causa probable                                        | Solución                                                                                               |
+| -------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `GH007: Your push would publish a private email address` | Tu correo personal está en los commits                | Usa el correo `noreply` de GitHub y repite el commit con `git commit --amend --reset-author --no-edit` |
+| `mkdir -p` o `touch` no funcionan                        | Estás en PowerShell                                   | Cambia a Git Bash o usa la versión PowerShell indicada                                                 |
+| El puerto 5432 está ocupado                              | Hay otro PostgreSQL instalado                         | Cambia `POSTGRES_PORT` en `.env` (por ejemplo a 5433) y ejecuta `docker compose up -d`                 |
+| `password authentication failed`                         | Cambiaste la clave en `.env` después de crear la base | `docker compose down -v` y `docker compose up -d` (borra los datos)                                    |
+| `ECONNREFUSED`                                           | La base no está encendida o `DB_HOST` está mal        | `docker compose ps` y revisa `.env`                                                                    |
+| Error de CORS en el navegador                            | Puerto del frontend distinto o proxy mal puesto       | Usa el puerto 5173 y revisa el `proxy` en `vite.config.js`                                             |
+| `docker` no se reconoce                                  | Docker Desktop cerrado                                | Ábrelo y espera a que termine de iniciar                                                               |
+| La API no lee el `.env`                                  | Ejecutas `npm run dev` desde otra carpeta             | Hazlo desde `apps/api`                                                                                 |
+| Aviso `LF will be replaced by CRLF`                      | Windows convierte saltos de línea                     | Es normal; no hace falta hacer nada                                                                    |
+| `git push` rechazado por la regla                        | Intentas subir directo a `main` o `develop`           | Trabaja en una rama `feature/...` y abre un Pull Request                                               |
 
 ---
 
-*Última actualización: octubre de 2026. Marca tu avance y haz commit de este archivo cada vez que completes una etapa.*
+_Última actualización: octubre de 2026. Marca tu avance y haz commit de este archivo cada vez que completes una etapa._
