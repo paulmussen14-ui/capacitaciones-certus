@@ -29,3 +29,25 @@ export async function cambiarEstadoCapacitacion(id, activa) {
     });
     return datos.capacitacion;
 }
+
+export async function eliminarCapacitacion(id, password) {
+    await apiFetch(`/capacitaciones/${id}`, {
+        method: 'DELETE',
+        body: JSON.stringify({ password }),
+    });
+}
+
+export async function subirImagenCapacitacion(id, archivo) {
+    const formulario = new FormData();
+    formulario.append('imagen', archivo);
+    const datos = await apiFetch(`/capacitaciones/${id}/imagen`, {
+        method: 'POST',
+        body: formulario,
+    });
+    return datos.capacitacion;
+}
+
+export async function quitarImagenCapacitacion(id) {
+    const datos = await apiFetch(`/capacitaciones/${id}/imagen`, { method: 'DELETE' });
+    return datos.capacitacion;
+}

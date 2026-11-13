@@ -29,3 +29,24 @@ export async function cambiarEstadoUsuario(id, activo) {
     });
     return datos.usuario;
 }
+
+export async function subirFotoUsuario(id, archivo) {
+    const formulario = new FormData();
+    formulario.append('imagen', archivo);
+    const datos = await apiFetch(`/usuarios/${id}/foto`, {
+        method: 'POST',
+        body: formulario,
+    });
+    return datos.usuario;
+}
+
+export async function quitarFotoUsuario(id) {
+    const datos = await apiFetch(`/usuarios/${id}/foto`, { method: 'DELETE' });
+    return datos.usuario;
+}
+
+
+export async function listarCapacitacionesDeUsuario(id) {
+    const datos = await apiFetch(`/usuarios/${id}/capacitaciones`);
+    return datos.capacitaciones;
+}

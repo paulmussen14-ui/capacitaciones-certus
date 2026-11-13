@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import Avatar from '../Avatar/Avatar';
 import Button from '../Button/Button';
 import Logo from '../Logo/Logo';
 import './Navbar.css';
@@ -55,6 +56,7 @@ export default function Navbar({ enlaces, usuario, onCerrarSesion }) {
 
             <div className="navbar__usuario">
                 <span className="navbar__saludo">
+                <Avatar nombres={usuario.nombres} apellidos={usuario.apellidos} src={usuario.foto_url} size="sm" />
                 {usuario.nombres} {usuario.apellidos}
                 </span>
                 <Button variant="secondary" size="sm" onClick={onCerrarSesion}>

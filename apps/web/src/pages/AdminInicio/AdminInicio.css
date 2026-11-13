@@ -14,3 +14,9 @@
         grid-template-columns: 1fr 1fr;
     }
 }
+
+@media (min-width: 1100px) {
+    .inicio-tarjetas {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

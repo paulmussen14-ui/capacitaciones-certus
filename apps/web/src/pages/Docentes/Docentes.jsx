@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import Alert from '../../components/Alert/Alert';
-import Badge from '../../components/Badge/Badge';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Modal from '../../components/Modal/Modal';
 import Spinner from '../../components/Spinner/Spinner';
-import Table from '../../components/Table/Table';
 import { useAuth } from '../../hooks/useAuth';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useLista } from '../../hooks/useLista';
@@ -15,10 +13,23 @@ import {
     cambiarEstadoUsuario,
     crearUsuario,
     listarUsuarios,
+    quitarFotoUsuario,
+    subirFotoUsuario,
 } from '../../services/usuarios';
+import { aplicarCambioImagen } from '../../utils/imagen';
+import DocenteCard from './DocenteCard';
+import DocenteDetalle from './DocenteDetalle';
 import UsuarioForm from './UsuarioForm';
+import './Docentes.css';
 
 const NUEVO = 'nuevo';
+
+const FILTROS = [
+    { valor: 'todos', texto: 'Todos' },
+    { valor: 'docentes', texto: 'Docentes' },
+    { valor: 'administradores', texto: 'Administradores' },
+    { valor: 'inactivos', texto: 'Inactivos' },
+];
 
 export default function Docentes() {
     const toast = useToast();
@@ -30,17 +41,28 @@ export default function Docentes() {
 
     // editando: null (cerrado) | 'nuevo' | el usuario que se edita
     const [editando, setEditando] = useState(null);
+    const [viendo, setViendo] = useState(null);
+    const [filtro, setFiltro] = useState('todos');
     const [aDesactivar, setADesactivar] = useState(null);
     const [procesando, setProcesando] = useState(false);
 
-    async function guardar(datos) {
+    async function guardar(datos, imagen) {
+        let guardado;
         if (editando === NUEVO) {
-        await crearUsuario(datos);
+        guardado = await crearUsuario(datos);
         toast.exito('Usuario creado.');
         } else {
-        await actualizarUsuario(editando.id, datos);
+        guardado = await actualizarUsuario(editando.id, datos);
         toast.exito('Cambios guardados.');
         }
+
+        // Los datos ya quedaron guardados; si la foto falla se avisa sin perderlos
+        try {
+        await aplicarCambioImagen(imagen, guardado.id, subirFotoUsuario, quitarFotoUsuario);
+        } catch (err) {
+        toast.error(`Se guardó, pero la foto no se pudo actualizar: ${err.message}`);
+        }
+
         setEditando(null);
         recargar();
     }
@@ -61,85 +83,27 @@ export default function Docentes() {
 
     const nombreCompleto = (usuario) => `${usuario.apellidos}, ${usuario.nombres}`;
 
-    const columnas = [
-        {
-        clave: 'nombre',
-        titulo: 'Nombre',
-        className: 'table__principal',
-        render: (fila) => (
-            <>
-            <strong>{nombreCompleto(fila)}</strong>
-            {fila.id === sesion.id && <span className="text-muted"> (tú)</span>}
-            </>
-        ),
-        },
-        { clave: 'correo', titulo: 'Correo' },
-        {
-        clave: 'rol',
-        titulo: 'Rol',
-        render: (fila) =>
-            fila.rol === 'administrador' ? (
-            <Badge tono="info">Administrador</Badge>
-            ) : (
-            <Badge tono="neutral">Docente</Badge>
-            ),
-        },
-        { clave: 'sede', titulo: 'Sede' },
-        { clave: 'programa', titulo: 'Programa' },
-        {
-        clave: 'activo',
-        titulo: 'Estado',
-        render: (fila) =>
-            fila.activo ? (
-            <Badge tono="success">Activo</Badge>
-            ) : (
-            <Badge tono="neutral">Inactivo</Badge>
-            ),
-        },
-        {
-        clave: 'acciones',
-        titulo: 'Acciones',
-        className: 'table__acciones',
-        render: (fila) => (
-            <>
-            <Button
-                variant="secondary"
-                size="sm"
-                aria-label={`Editar a ${nombreCompleto(fila)}`}
-                onClick={() => setEditando(fila)}
-            >
-                Editar
-            </Button>{' '}
-            {fila.activo ? (
-                <Button
-                variant="danger"
-                size="sm"
-                aria-label={`Desactivar a ${nombreCompleto(fila)}`}
-                disabled={fila.id === sesion.id}
-                title={fila.id === sesion.id ? 'No puedes desactivar tu propia cuenta' : undefined}
-                onClick={() => setADesactivar(fila)}
-                >
-                Desactivar
-                </Button>
-            ) : (
-                <Button
-                variant="secondary"
-                size="sm"
-                aria-label={`Activar a ${nombreCompleto(fila)}`}
-                disabled={procesando}
-                onClick={() => cambiarEstado(fila, true)}
-                >
-                Activar
-                </Button>
-            )}
-            </>
-        ),
-        },
-    ];
+    const coincide = {
+        todos: () => true,
+        docentes: (u) => u.rol === 'docente',
+        administradores: (u) => u.rol === 'administrador',
+        inactivos: (u) => !u.activo,
+    };
+    const totales = Object.fromEntries(
+        Object.entries(coincide).map(([clave, prueba]) => [clave, filas.filter(prueba).length]),
+    );
+    const visibles = filas.filter(coincide[filtro]);
+
+    function editarDesdeDetalle(usuario) {
+        setViendo(null);
+        setEditando(usuario);
+    }
 
     const mensajeVacio = busqueda
         ? `No se encontraron usuarios con «${busqueda}».`
-        : 'Aún no hay usuarios. Crea el primero con el botón «Nuevo».';
+        : filtro !== 'todos'
+            ? 'No hay usuarios en esta categoría.'
+            : 'Aún no hay usuarios. Crea el primero con el botón «Nuevo».';
 
     return (
         <>
@@ -163,11 +127,20 @@ export default function Docentes() {
                 placeholder="Escribe un nombre o un correo"
             />
             </div>
-            {!error && !cargando && (
-            <span className="toolbar__conteo">
-                {filas.length} {filas.length === 1 ? 'usuario' : 'usuarios'}
-            </span>
-            )}
+            <div className="filtros" role="group" aria-label="Filtrar usuarios">
+            {FILTROS.map((f) => (
+                <button
+                key={f.valor}
+                type="button"
+                className={`filtros__boton${filtro === f.valor ? ' filtros__boton--activo' : ''}`}
+                aria-pressed={filtro === f.valor}
+                onClick={() => setFiltro(f.valor)}
+                >
+                {f.texto}
+                {!error && !cargando && <span className="filtros__conteo">{totales[f.valor]}</span>}
+                </button>
+            ))}
+            </div>
         </div>
 
         {error ? (
@@ -182,16 +155,38 @@ export default function Docentes() {
             </Alert>
         ) : cargando && filas.length === 0 ? (
             <Spinner texto="Cargando usuarios..." />
+        ) : visibles.length === 0 ? (
+            <p className="doc-vacio">{mensajeVacio}</p>
         ) : (
-            <div className={cargando ? 'is-loading' : undefined} aria-busy={cargando}>
-            <Table
-                descripcion="Lista de docentes y administradores"
-                columnas={columnas}
-                filas={filas}
-                vacio={mensajeVacio}
-            />
+            <div className={`doc-grid${cargando ? ' is-loading' : ''}`} aria-busy={cargando}>
+            {visibles.map((fila) => (
+                <DocenteCard
+                key={fila.id}
+                usuario={fila}
+                esPropio={fila.id === sesion.id}
+                procesando={procesando}
+                onVer={setViendo}
+                onEditar={setEditando}
+                onActivar={(u) => cambiarEstado(u, true)}
+                onDesactivar={setADesactivar}
+                />
+            ))}
             </div>
         )}
+
+        <Modal
+            abierto={viendo !== null}
+            titulo="Ficha del usuario"
+            onCerrar={() => setViendo(null)}
+        >
+            {viendo && (
+            <DocenteDetalle
+                usuario={viendo}
+                onEditar={editarDesdeDetalle}
+                onCerrar={() => setViendo(null)}
+            />
+            )}
+        </Modal>
 
         <Modal
             abierto={editando !== null}

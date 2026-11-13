@@ -33,3 +33,27 @@ export async function cambiarEstado(req, res) {
     );
     res.json({ capacitacion });
 }
+
+export async function eliminar(req, res) {
+    await capacitacionesService.eliminar(
+        idDesdeParametro(req.params.id),
+        req.body?.password,
+        req.user,
+    );
+    res.json({ ok: true });
+}
+
+export async function subirImagen(req, res) {
+    const capacitacion = await capacitacionesService.subirImagen(
+        idDesdeParametro(req.params.id),
+        req.file,
+    );
+    res.json({ capacitacion });
+}
+
+export async function quitarImagen(req, res) {
+    const capacitacion = await capacitacionesService.quitarImagen(
+        idDesdeParametro(req.params.id),
+    );
+    res.json({ capacitacion });
+}

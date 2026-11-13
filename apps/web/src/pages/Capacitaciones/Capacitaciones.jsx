@@ -5,7 +5,6 @@ import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Modal from '../../components/Modal/Modal';
 import Spinner from '../../components/Spinner/Spinner';
-import Table from '../../components/Table/Table';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useLista } from '../../hooks/useLista';
 import { useToast } from '../../hooks/useToast';
@@ -14,11 +13,23 @@ import {
     cambiarEstadoCapacitacion,
     crearCapacitacion,
     listarCapacitaciones,
+    quitarImagenCapacitacion,
+    subirImagenCapacitacion,
 } from '../../services/capacitaciones';
 import { formatearRango } from '../../utils/formato';
+import { aplicarCambioImagen } from '../../utils/imagen';
+import CapacitacionCard, { Portada } from './CapacitacionCard';
 import CapacitacionForm from './CapacitacionForm';
+import EliminarCapacitacion from './EliminarCapacitacion';
+import './Capacitaciones.css';
 
 const NUEVA = 'nueva';
+
+const FILTROS = [
+    { valor: 'todas', texto: 'Todas' },
+    { valor: 'activas', texto: 'Activas' },
+    { valor: 'inactivas', texto: 'Inactivas' },
+];
 
 export default function Capacitaciones() {
     const toast = useToast();
@@ -27,18 +38,44 @@ export default function Capacitaciones() {
     const busqueda = useDebounce(texto.trim(), 300);
     const { filas, cargando, error, recargar } = useLista(listarCapacitaciones, busqueda);
 
+    const [filtro, setFiltro] = useState('todas');
     const [editando, setEditando] = useState(null);
+    const [viendo, setViendo] = useState(null);
     const [aDesactivar, setADesactivar] = useState(null);
+    const [aEliminar, setAEliminar] = useState(null);
     const [procesando, setProcesando] = useState(false);
 
-    async function guardar(datos) {
+    const totales = {
+        todas: filas.length,
+        activas: filas.filter((fila) => fila.activa).length,
+        inactivas: filas.filter((fila) => !fila.activa).length,
+    };
+    const visibles = filas.filter(
+        (fila) => filtro === 'todas' || (filtro === 'activas' ? fila.activa : !fila.activa),
+    );
+
+    async function guardar(datos, imagen) {
+        let guardada;
         if (editando === NUEVA) {
-        await crearCapacitacion(datos);
+        guardada = await crearCapacitacion(datos);
         toast.exito('Capacitación creada.');
         } else {
-        await actualizarCapacitacion(editando.id, datos);
+        guardada = await actualizarCapacitacion(editando.id, datos);
         toast.exito('Cambios guardados.');
         }
+
+        // Los datos ya quedaron guardados; si la imagen falla se avisa sin perderlos
+        try {
+        await aplicarCambioImagen(
+            imagen,
+            guardada.id,
+            subirImagenCapacitacion,
+            quitarImagenCapacitacion,
+        );
+        } catch (err) {
+        toast.error(`Se guardó, pero la imagen no se pudo actualizar: ${err.message}`);
+        }
+
         setEditando(null);
         recargar();
     }
@@ -54,80 +91,21 @@ export default function Capacitaciones() {
         } finally {
         setProcesando(false);
         setADesactivar(null);
+        setAEliminar(null);
         }
     }
 
-    const columnas = [
-        {
-        clave: 'titulo',
-        titulo: 'Título',
-        className: 'table__principal',
-        render: (fila) => <strong>{fila.titulo}</strong>,
-        },
-        {
-        clave: 'duracion_horas',
-        titulo: 'Duración',
-        render: (fila) => `${fila.duracion_horas} h`,
-        },
-        { clave: 'instructor', titulo: 'Instructor' },
-        { clave: 'sede', titulo: 'Sede' },
-        {
-        clave: 'fechas',
-        titulo: 'Fechas',
-        render: (fila) => formatearRango(fila.fecha_inicio, fila.fecha_fin),
-        },
-        {
-        clave: 'activa',
-        titulo: 'Estado',
-        render: (fila) =>
-            fila.activa ? (
-            <Badge tono="success">Activa</Badge>
-            ) : (
-            <Badge tono="neutral">Inactiva</Badge>
-            ),
-        },
-        {
-        clave: 'acciones',
-        titulo: 'Acciones',
-        className: 'table__acciones',
-        render: (fila) => (
-            <>
-            <Button
-                variant="secondary"
-                size="sm"
-                aria-label={`Editar ${fila.titulo}`}
-                onClick={() => setEditando(fila)}
-            >
-                Editar
-            </Button>{' '}
-            {fila.activa ? (
-                <Button
-                variant="danger"
-                size="sm"
-                aria-label={`Desactivar ${fila.titulo}`}
-                onClick={() => setADesactivar(fila)}
-                >
-                Desactivar
-                </Button>
-            ) : (
-                <Button
-                variant="secondary"
-                size="sm"
-                aria-label={`Activar ${fila.titulo}`}
-                disabled={procesando}
-                onClick={() => cambiarEstado(fila, true)}
-                >
-                Activar
-                </Button>
-            )}
-            </>
-        ),
-        },
-    ];
+    function alEliminada() {
+        toast.exito('Capacitación eliminada.');
+        setAEliminar(null);
+        recargar();
+    }
 
     const mensajeVacio = busqueda
         ? `No se encontraron capacitaciones con «${busqueda}».`
-        : 'Aún no hay capacitaciones. Crea la primera con el botón «Nueva».';
+        : filtro !== 'todas'
+            ? `No hay capacitaciones ${filtro}.`
+            : 'Aún no hay capacitaciones. Crea la primera con el botón «Nueva».';
 
     return (
         <>
@@ -151,11 +129,21 @@ export default function Capacitaciones() {
                 placeholder="Escribe parte del título"
             />
             </div>
-            {!error && !cargando && (
-            <span className="toolbar__conteo">
-                {filas.length} {filas.length === 1 ? 'capacitación' : 'capacitaciones'}
-            </span>
-            )}
+
+            <div className="filtros" role="group" aria-label="Filtrar por estado">
+            {FILTROS.map((f) => (
+                <button
+                key={f.valor}
+                type="button"
+                className={`filtros__boton${filtro === f.valor ? ' filtros__boton--activo' : ''}`}
+                aria-pressed={filtro === f.valor}
+                onClick={() => setFiltro(f.valor)}
+                >
+                {f.texto}
+                {!error && !cargando && <span className="filtros__conteo">{totales[f.valor]}</span>}
+                </button>
+            ))}
+            </div>
         </div>
 
         {error ? (
@@ -170,14 +158,22 @@ export default function Capacitaciones() {
             </Alert>
         ) : cargando && filas.length === 0 ? (
             <Spinner texto="Cargando capacitaciones..." />
+        ) : visibles.length === 0 ? (
+            <p className="cap-vacio">{mensajeVacio}</p>
         ) : (
-            <div className={cargando ? 'is-loading' : undefined} aria-busy={cargando}>
-            <Table
-                descripcion="Lista de capacitaciones"
-                columnas={columnas}
-                filas={filas}
-                vacio={mensajeVacio}
-            />
+            <div className={`cap-grid${cargando ? ' is-loading' : ''}`} aria-busy={cargando}>
+            {visibles.map((fila) => (
+                <CapacitacionCard
+                key={fila.id}
+                capacitacion={fila}
+                procesando={procesando}
+                onVer={setViendo}
+                onEditar={setEditando}
+                onActivar={(c) => cambiarEstado(c, true)}
+                onDesactivar={setADesactivar}
+                onEliminar={setAEliminar}
+                />
+            ))}
             </div>
         )}
 
@@ -193,6 +189,28 @@ export default function Capacitaciones() {
             />
         </Modal>
 
+        <Modal abierto={viendo !== null} titulo={viendo?.titulo ?? ''} onCerrar={() => setViendo(null)}>
+            {viendo && (
+            <div className="cap-detalle">
+                <div className="cap-detalle__portada">
+                <Portada capacitacion={viendo} />
+                </div>
+                <p>
+                {viendo.activa ? <Badge tono="success">Activa</Badge> : <Badge tono="neutral">Inactiva</Badge>}
+                </p>
+                <p>{viendo.descripcion ?? 'Sin descripción.'}</p>
+                <ul className="cap-detalle__datos">
+                <li><strong>Duración:</strong> {viendo.duracion_horas} h</li>
+                <li><strong>Instructor:</strong> {viendo.instructor ?? '—'}</li>
+                <li><strong>Sede:</strong> {viendo.sede ?? '—'}</li>
+                <li><strong>Programa:</strong> {viendo.programa ?? '—'}</li>
+                <li><strong>Fechas:</strong> {formatearRango(viendo.fecha_inicio, viendo.fecha_fin)}</li>
+                <li><strong>Docentes asignados:</strong> {viendo.inscritos}</li>
+                </ul>
+            </div>
+            )}
+        </Modal>
+
         <Modal
             abierto={aDesactivar !== null}
             titulo="Desactivar capacitación"
@@ -205,22 +223,29 @@ export default function Capacitaciones() {
                 historial y podrás activarla de nuevo cuando quieras.
                 </p>
                 <div className="form-actions">
-                <Button
-                    variant="secondary"
-                    disabled={procesando}
-                    onClick={() => setADesactivar(null)}
-                >
+                <Button variant="secondary" disabled={procesando} onClick={() => setADesactivar(null)}>
                     Cancelar
                 </Button>
-                <Button
-                    variant="danger"
-                    disabled={procesando}
-                    onClick={() => cambiarEstado(aDesactivar, false)}
-                >
+                <Button variant="danger" disabled={procesando} onClick={() => cambiarEstado(aDesactivar, false)}>
                     {procesando ? 'Desactivando...' : 'Desactivar'}
                 </Button>
                 </div>
             </>
+            )}
+        </Modal>
+
+        <Modal
+            abierto={aEliminar !== null}
+            titulo="Eliminar capacitación"
+            onCerrar={() => setAEliminar(null)}
+        >
+            {aEliminar && (
+            <EliminarCapacitacion
+                capacitacion={aEliminar}
+                onEliminada={alEliminada}
+                onDesactivar={(c) => cambiarEstado(c, false)}
+                onCancelar={() => setAEliminar(null)}
+            />
             )}
         </Modal>
         </>

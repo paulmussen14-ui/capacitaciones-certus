@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import Alert from '../../components/Alert/Alert';
 import Button from '../../components/Button/Button';
+import ImagenInput from '../../components/ImagenInput/ImagenInput';
 import Input from '../../components/Input/Input';
 
 const VACIO = {
@@ -75,6 +76,7 @@ export default function CapacitacionForm({ capacitacion, onGuardar, onCancelar }
     const [errores, setErrores] = useState({});
     const [errorServidor, setErrorServidor] = useState('');
     const [enviando, setEnviando] = useState(false);
+    const [imagen, setImagen] = useState(null);
 
     const editando = capacitacion !== null;
 
@@ -102,7 +104,7 @@ export default function CapacitacionForm({ capacitacion, onGuardar, onCancelar }
 
         setEnviando(true);
         try {
-        await onGuardar(aDatosApi(valores));
+        await onGuardar(aDatosApi(valores), imagen);
         } catch (error) {
         setErrorServidor(error.message);
         setEnviando(false);
@@ -118,6 +120,14 @@ export default function CapacitacionForm({ capacitacion, onGuardar, onCancelar }
         )}
 
         <div className="form-grid">
+            <div className="form-grid__full">
+            <ImagenInput
+                label="Imagen de la capacitación"
+                actual={capacitacion?.imagen_url ?? null}
+                onChange={setImagen}
+            />
+            </div>
+
             <div className="form-grid__full">
             <Input
                 label="Título"

@@ -33,3 +33,24 @@ export async function cambiarEstado(req, res) {
     );
     res.json({ usuario });
 }
+
+export async function subirFoto(req, res) {
+    const usuario = await usuariosService.subirFoto(
+        idDesdeParametro(req.params.id),
+        req.file,
+    );
+    res.json({ usuario });
+}
+
+export async function quitarFoto(req, res) {
+    const usuario = await usuariosService.quitarFoto(idDesdeParametro(req.params.id));
+    res.json({ usuario });
+}
+
+
+export async function capacitaciones(req, res) {
+    const capacitaciones = await usuariosService.capacitacionesDe(
+        idDesdeParametro(req.params.id),
+    );
+    res.json({ capacitaciones });
+}

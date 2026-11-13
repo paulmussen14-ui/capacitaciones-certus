@@ -12,3 +12,11 @@ export function formatearRango(inicio, fin) {
     if (hasta) return `Hasta ${hasta}`;
     return '—';
 }
+
+// Para marcas de tiempo completas (por ejemplo la fecha de alta de una cuenta)
+export function formatearMarcaDeTiempo(marca) {
+    if (!marca) return null;
+    const fecha = new Date(marca);
+    if (Number.isNaN(fecha.getTime())) return null;
+    return fecha.toLocaleDateString('es-PE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
