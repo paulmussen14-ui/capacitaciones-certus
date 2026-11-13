@@ -2,3 +2,8 @@
     padding-top: var(--space-4);
     padding-bottom: var(--space-5);
 }
+
+/* El buscador deja de quedar corto en pantallas anchas */
+.admin-main .toolbar__buscar {
+    max-width: 480px;
+}
